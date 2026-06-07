@@ -1,9 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>管理</title>
+<title>商品管理</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+.wrap { max-width:800px; margin:0 auto; padding:40px 20px; }
+.wrap h1 { font-size:1.5rem; margin-bottom:4px; }
+.sub { color:#888; font-size:0.9rem; margin-bottom:24px; }
+
+.tb { background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:16px; margin-bottom:24px; }
+.tb label { display:block; font-weight:600; margin-bottom:6px; }
+.tb input { width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box; }
+.tb .h { font-size:0.8rem; color:#856404; margin-top:6px; }
+
+.frm { background:#f8f9fa; border-radius:10px; padding:24px; margin-bottom:24px; }
+.frm .r { margin-bottom:12px; }
+.frm label { display:block; font-weight:600; margin-bottom:4px; font-size:0.9rem; }
+.frm input, .frm textarea { width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:0.95rem; box-sizing:border-box; }
+.frm textarea { min-height:60px; resize:vertical; }
+.frm .r3 { display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; }
+
+.up { border:2px dashed #ccc; border-radius:8px; padding:24px; text-align:center; cursor:pointer; color:#888; }
+.up:hover { border-color:#1a1a2e; background:#f0f0f5; }
+.up.ok { padding:12px; border-color:#28a745; }
+.up img { max-width:120px; max-height:120px; border-radius:6px; margin:0 auto 8px; }
+#fi { display:none; }
+
+.btn { display:inline-block; padding:10px 24px; background:#1a1a2e; color:#fff; border-radius:6px; font-size:0.95rem; border:none; cursor:pointer; margin-right:8px; margin-top:8px; }
+.btn:hover { background:#333; }
+.btn.g { background:#6c757d; }
+.btn.g:hover { background:#5a6268; }
+.btn.r { background:#dc3545; }
+.btn.r:hover { background:#c82333; }
+.btn.s { padding:4px 12px; font-size:0.85rem; margin:0; }
+
+.list { margin:16px 0; }
+.lr { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border:1px solid #eee; border-radius:8px; margin-bottom:8px; }
+.lr .i { flex:1; }
+.lr .n { font-weight:600; }
+.lr .m { font-size:0.85rem; color:#888; }
+
+.msg { padding:12px 16px; border-radius:8px; margin-bottom:16px; }
+.msg.g { background:#d4edda; color:#155724; }
+.msg.b { background:#f8d7da; color:#721c24; }
+.msg.w { background:#cce5ff; color:#004085; }
+.msg.h { display:none; }
+</style>
 </head>
 <body>
 <nav class="navbar"><div class="container">
@@ -11,120 +54,271 @@
 <ul class="nav-links">
 <li><a href="index.html">首页</a></li>
 <li><a href="products.html">商品</a></li>
-<li><a href="admin.html" style="color:#e63946;">管理</a></li>
+<li><a href="admin.html" style="color:#e63946;font-weight:600;">管理</a></li>
 </ul>
 </div></nav>
 
-<div style="max-width:600px;margin:40px auto;padding:0 20px;">
-<h2>简易商品管理</h2>
-<p style="color:#888;margin-bottom:20px;">直接在文本框里编辑 JSON，改完点发布</p>
+<div class="wrap">
 
-<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-bottom:16px;">
-<label style="font-weight:600;display:block;margin-bottom:4px;">GitHub Token</label>
-<input id="tk" type="password" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;box-sizing:border-box;">
+<h1>商品管理</h1>
+<p class="sub">添加 / 编辑 / 删除商品，改完点"发布到网站"</p>
+
+<div class="tb">
+<label>GitHub Token</label>
+<input type="password" id="tk" placeholder="ghp_...">
+<div class="h">存在浏览器里，只发给 GitHub。不填则不能发布。</div>
 </div>
 
-<div id="msg" style="display:none;padding:12px;border-radius:8px;margin-bottom:12px;"></div>
+<div id="msg" class="msg h"></div>
 
-<p style="margin-bottom:8px;font-weight:600;">商品数据 (JSON 格式)</p>
-<textarea id="data" style="width:100%;height:400px;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:monospace;font-size:13px;box-sizing:border-box;resize:vertical;"></textarea>
+<div class="frm">
+<h2 id="ft">添加商品</h2>
+<input type="hidden" id="eid">
 
-<div style="margin-top:12px;">
-<button class="btn" onclick="doPub()">发布</button>
-<button class="btn" style="background:#6c757d;" onclick="doLoad()">加载</button>
+<div class="r"><label>商品名称 *</label><input id="fn" placeholder="跑跑毛绒玩具"></div>
+
+<div class="r3">
+<div><label>售价 *</label><input id="fp" type="number" placeholder="128"></div>
+<div><label>原价</label><input id="fo" type="number" placeholder="188（留空不要）"></div>
+<div><label>角标</label><input id="fb" placeholder="SAVE 30%"></div>
 </div>
+
+<div class="r"><label>描述</label><textarea id="fd" placeholder="卖点、材质、尺寸等"></textarea></div>
+
+<div class="r">
+<label>图片</label>
+<div class="up" id="up" onclick="document.getElementById('fi').click()"><div id="upv"><p>点击选择图片</p><p style="font-size:0.8rem;">JPG / PNG</p></div></div>
+<input type="file" id="fi" accept="image/jpeg,image/png">
+</div>
+
+<button class="btn" onclick="save()">保存</button>
+<button class="btn g" id="cc" onclick="cancelE()" style="display:none;">取消</button>
+</div>
+
+<button class="btn" id="pub" onclick="publish()">发布到网站</button>
+
+<h2 style="margin-top:32px;font-size:1.1rem;">当前商品</h2>
+<div class="list" id="list"><p style="color:#888;">点"加载"读取现有商品</p></div>
+<button class="btn g" onclick="load()">加载</button>
+
 </div>
 
 <script>
-var tk = document.getElementById('tk');
-var ta = document.getElementById('data');
-var msg = document.getElementById('msg');
+var items = [];
+var upFile = null;
 
-tk.value = localStorage.getItem('_tk') || '';
+(function(){
+  var t = localStorage.getItem('_t');
+  if(t) document.getElementById('tk').value = t;
+})();
 
-function show(text, cls) {
-  msg.textContent = text;
-  msg.style.display = 'block';
-  msg.className = cls || '';
-  msg.style.background = cls === 'err' ? '#f8d7da' : cls === 'ok' ? '#d4edda' : '#cce5ff';
-  msg.style.color = cls === 'err' ? '#721c24' : cls === 'ok' ? '#155724' : '#004085';
+document.getElementById('fi').onchange = function(e){
+  var f = e.target.files[0];
+  if(!f) return;
+  upFile = f;
+  var r = new FileReader();
+  r.onload = function(ev){
+    var u = document.getElementById('up');
+    u.className = 'up ok';
+    document.getElementById('upv').innerHTML = '<img src="'+ev.target.result+'"><p style="font-size:0.8rem;color:#888;">'+f.name+'</p>';
+  };
+  r.readAsDataURL(f);
+};
+
+function m(t,c){
+  var e = document.getElementById('msg');
+  e.textContent = t;
+  e.className = 'msg ' + c;
 }
 
-function esc(s) { return s.replace(/[<>&]/g, function(c) { return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }); }
+function rl(){
+  var el = document.getElementById('list');
+  if(items.length===0){ el.innerHTML = '<p style="color:#888;">暂无商品</p>'; return; }
+  var h = '';
+  for(var i=0;i<items.length;i++){
+    var p = items[i];
+    h += '<div class="lr"><div class="i"><div class="n">'+hE(p.name)+'</div><div class="m">'+p.price+'元'+(p.originalPrice?' 原价'+p.originalPrice+'元':'')+'</div></div><div><button class="btn g s" onclick="ed('+i+')">编辑</button> <button class="btn r s" onclick="del('+i+')">删除</button></div></div>';
+  }
+  el.innerHTML = h;
+}
 
-function b64(s) { return btoa(unescape(encodeURIComponent(s))); }
+function hE(s){ return (s||'').replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
 
-async function doPub() {
-  var token = tk.value.trim();
-  if (!token) { show('请填 Token', 'err'); return; }
-  localStorage.setItem('_tk', token);
+function cf(){
+  document.getElementById('eid').value='';
+  document.getElementById('fn').value='';
+  document.getElementById('fp').value='';
+  document.getElementById('fo').value='';
+  document.getElementById('fb').value='';
+  document.getElementById('fd').value='';
+  document.getElementById('ft').textContent='添加商品';
+  document.getElementById('cc').style.display='none';
+  upFile=null;
+  var u=document.getElementById('up');
+  u.className='up';
+  document.getElementById('upv').innerHTML='<p>点击选择图片</p><p style="font-size:0.8rem;">JPG / PNG</p>';
+  document.getElementById('fi').value='';
+}
 
-  var data;
-  try { data = JSON.parse(ta.value); } catch(e) { show('JSON 格式错误：' + e.message, 'err'); return; }
-  if (!Array.isArray(data) || data.length === 0) { show('至少填一个商品', 'err'); return; }
+function cancelE(){ cf(); }
 
-  show('发布中...', '');
+function save(){
+  var id = document.getElementById('eid').value;
+  var na = document.getElementById('fn').value.trim();
+  var pr = parseFloat(document.getElementById('fp').value);
+  if(!na||!pr){ m('请填名称和售价','b'); return; }
+  var ol = document.getElementById('fo').value;
+  var bg = document.getElementById('fb').value.trim();
+  var de = document.getElementById('fd').value.trim();
+  var img = upFile ? (Date.now()+'_'+upFile.name.replace(/[^a-zA-Z0-9._-]/g,'')) : '';
+  var obj = { id: id||('p'+Date.now()), name:na, price:pr, description:de||'描述', images:[img||'placeholder.svg'] };
+  if(ol) obj.originalPrice = parseFloat(ol);
+  if(bg) obj.badge = bg;
+  if(id){
+    for(var i=0;i<items.length;i++){
+      if(items[i].id===id){
+        if(!upFile){ obj.images = items[i].images; }
+        items[i]=obj; break;
+      }
+    }
+    m('已更新','g');
+  } else {
+    items.push(obj);
+    m('已添加','g');
+  }
+  cf(); rl();
+}
 
-  var items = data.map(function(p, i) {
-    return '    {\n' +
-      "      id: 'p" + Date.now() + i + "',\n" +
-      "      name: '" + esc(String(p.name || '')).replace(/'/g, "\\'") + "',\n" +
-      "      price: " + (parseFloat(p.price) || 0) + ",\n" +
-      (p.originalPrice ? "      originalPrice: " + parseFloat(p.originalPrice) + ",\n" : '') +
-      (p.badge ? "      badge: '" + esc(String(p.badge)).replace(/'/g, "\\'") + "',\n" : '') +
-      "      description: '" + esc(String(p.description || '')).replace(/'/g, "\\'") + "',\n" +
-      "      images: ['" + (p.image || 'placeholder.svg') + "']\n" +
-      '    }';
+function ed(i){
+  var p=items[i];
+  document.getElementById('eid').value=p.id;
+  document.getElementById('fn').value=p.name;
+  document.getElementById('fp').value=p.price;
+  document.getElementById('fo').value=p.originalPrice||'';
+  document.getElementById('fb').value=p.badge||'';
+  document.getElementById('fd').value=p.description||'';
+  document.getElementById('ft').textContent='编辑商品';
+  document.getElementById('cc').style.display='inline-block';
+  upFile=null;
+  var u=document.getElementById('up');
+  u.className='up';
+  document.getElementById('upv').innerHTML='<p>点击选新图（不选保留原图）</p>';
+}
+
+function del(i){
+  if(!confirm('确定删除？')) return;
+  items.splice(i,1);
+  rl(); m('已删除','g');
+}
+
+function gtk(){
+  var t = document.getElementById('tk').value.trim();
+  if(!t){ m('请填 GitHub Token','b'); return null; }
+  localStorage.setItem('_t',t);
+  return t;
+}
+
+function b64(s){ return btoa(unescape(encodeURIComponent(s))); }
+
+async function upImg(file,name,token){
+  var r = await fetch(URL.createObjectURL(file));
+  var blob = await r.blob();
+  var rd = new FileReader();
+  return new Promise(function(resolve,reject){
+    rd.onload = async function(e){
+      try{
+        var b = e.target.result.split(',')[1];
+        var c = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{headers:{'Authorization':'token '+token}});
+        var cd = await c.json();
+        var sha = cd.sha||null;
+        var body = {message:'上传 '+name,content:b};
+        if(sha) body.sha=sha;
+        var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{
+          method:'PUT', headers:{'Authorization':'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(body)
+        });
+        if(r2.ok) resolve();
+        else { var e2 = await r2.json(); reject(e2.message); }
+      }catch(e){ reject(e.message); }
+    };
+    rd.readAsDataURL(blob);
   });
-
-  var js = 'const products = [\n' + items.join(',\n') + '\n];\n\n' +
-    'function renderProductCard(product) {\n' +
-    '  const imgFile = product.images && product.images[0] ? product.images[0] : "placeholder.svg";\n' +
-    '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">¥${product.price}</span>${product.originalPrice ? `<span class="original-price">¥${product.originalPrice}</span>` : ""}</div></a>`;\n' +
-    '}\n\n' +
-    'function renderProducts(productList, elementId) {\n' +
-    '  const container = document.getElementById(elementId);\n' +
-    '  if (!container) return;\n' +
-    '  container.innerHTML = productList.map(p => renderProductCard(p)).join("");\n' +
-    '}\n';
-
-  try {
-    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-      headers: { 'Authorization': 'token ' + token }
-    });
-    var d = await r.json();
-    if (d.message) { show('GitHub 错误：' + d.message, 'err'); return; }
-
-    var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: '更新商品', content: b64(js), sha: d.sha })
-    });
-    if (r2.ok) { show('发布成功！1-2 分钟生效', 'ok'); }
-    else { var e = await r2.json(); show('发布失败：' + (e.message || ''), 'err'); }
-  } catch(e) { show('网络错误：' + e.message, 'err'); }
 }
 
-async function doLoad() {
-  var token = tk.value.trim();
-  if (!token) { show('请填 Token', 'err'); return; }
-  show('加载中...', '');
-  try {
-    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-      headers: { 'Authorization': 'token ' + token }
+async function publish(){
+  var token = gtk();
+  if(!token || items.length===0){ m('没有商品可发布','b'); return; }
+  m('发布中...','w');
+  document.getElementById('pub').disabled=true;
+
+  try{
+    // 上传图片
+    for(var i=0;i<items.length;i++){
+      var p = items[i];
+      if(p.images && p.images[0] && p.images[0]!=='placeholder.svg'){
+        // 尝试找对应的文件
+      }
+    }
+
+    // 生成 products.js
+    var list = items.map(function(p){
+      var l = ['    {'];
+      l.push("      id: '"+p.id+"',");
+      l.push("      name: '"+(p.name||'').replace(/'/g,"\\'")+"',");
+      l.push('      price: '+p.price+',');
+      if(p.originalPrice) l.push('      originalPrice: '+p.originalPrice+',');
+      if(p.badge) l.push("      badge: '"+(p.badge||'').replace(/'/g,"\\'")+"',");
+      l.push("      description: '"+(p.description||'').replace(/'/g,"\\'")+"',");
+      l.push("      images: ['"+((p.images&&p.images[0])||'placeholder.svg')+"']");
+      l.push('    }');
+      return l.join('\n');
+    });
+
+    var js = 'const products = [\n'+list.join(',\n')+'\n];\n\n'+
+      'function renderProductCard(p){\n'+
+      '  var f = p.images&&p.images[0]?p.images[0]:"placeholder.svg";\n'+
+      '  return \'<a href="product.html?id=\'+p.id+\'" class="product-card"><img src="images/\'+f+\'" alt="\'+p.name+\'"><div class="info">\'+(p.badge?\'<span class="badge">\'+p.badge+\'</span>\':\'\')+\'<h3>\'+p.name+\'</h3><span class="price">\u00a5\'+p.price+\'</span>\'+(p.originalPrice?\'<span class="original-price">\u00a5\'+p.originalPrice+\'</span>\':\'\')+\'</div></a>\';\n'+
+      '}\n\n'+
+      'function renderProducts(l,id){\n'+
+      '  var c = document.getElementById(id);\n'+
+      '  if(!c) return;\n'+
+      '  c.innerHTML = l.map(function(p){return renderProductCard(p);}).join("");\n'+
+      '}\n';
+
+    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js',{
+      headers:{'Authorization':'token '+token}
     });
     var d = await r.json();
-    if (d.message) { show('加载失败：' + d.message, 'err'); return; }
+    if(d.message){ m('GitHub 错误: '+d.message,'b'); return; }
+
+    var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js',{
+      method:'PUT',
+      headers:{'Authorization':'token '+token,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'更新商品',content:b64(js),sha:d.sha})
+    });
+    if(r2.ok){ m('发布成功！1-2 分钟生效','g'); }
+    else { var e = await r2.json(); m('发布失败: '+(e.message||''),'b'); }
+  }catch(e){ m('错误: '+e.message,'b'); }
+  document.getElementById('pub').disabled=false;
+}
+
+async function load(){
+  var token = gtk();
+  if(!token) return;
+  m('加载中...','w');
+  try{
+    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js',{
+      headers:{'Authorization':'token '+token}
+    });
+    var d = await r.json();
+    if(d.message){ m('加载失败: '+d.message,'b'); return; }
     var c = decodeURIComponent(escape(atob(d.content)));
-    var m = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
-    if (m) {
-      var items = eval(m[1]);
-      ta.value = JSON.stringify(items.map(function(p) {
-        return { name: p.name, price: p.price, originalPrice: p.originalPrice, badge: p.badge, description: p.description, image: (p.images && p.images[0]) || '' };
-      }), null, 2);
-      show('已加载 ' + items.length + ' 个商品', 'ok');
-    } else { show('解析失败', 'err'); }
-  } catch(e) { show('加载失败：' + e.message, 'err'); }
+    var mc = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
+    if(mc){
+      items = eval(mc[1]);
+      rl();
+      m('已加载 '+items.length+' 个商品','g');
+    } else { m('解析失败','b'); }
+  }catch(e){ m('加载失败: '+e.message,'b'); }
 }
 </script>
 </body>
