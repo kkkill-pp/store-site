@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页 | 品牌名称</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 导航 -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">品牌名</a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="products.html">商品</a></li>
+        <li><a href="about.html">关于</a></li>
+        <li><a href="cart.html" class="cart-link">购物车 <span id="cart-count">0</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 主视觉 -->
+  <section class="hero">
+    <div class="container">
+      <h1>你的品牌标语</h1>
+      <p>一句产品的简短描述，让人一眼知道你在卖什么。</p>
+      <a href="products.html" class="btn">查看商品</a>
+    </div>
+  </section>
+
+  <!-- 特色商品 -->
+  <section class="featured">
+    <div class="container">
+      <h2>热销商品</h2>
+      <div class="product-grid" id="featured-products">
+        <!-- JS 渲染 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 品牌名称</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    // 首页展示前 4 个商品
+    renderProducts(products.slice(0, 4), 'featured-products');
+    updateCartCount();
+  </script>
+</body>
+</html>

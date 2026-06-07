@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>购物车 | 品牌名称</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">品牌名</a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="products.html">商品</a></li>
+        <li><a href="about.html">关于</a></li>
+        <li><a href="cart.html" class="cart-link">购物车 <span id="cart-count">0</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>购物车</h1>
+    </div>
+  </section>
+
+  <section class="cart-page">
+    <div class="container">
+      <div id="cart-items"></div>
+      <div id="cart-summary" class="cart-summary">
+        <p>总计：<strong id="cart-total">¥0</strong></p>
+        <p class="cart-note">* 下单请联系我们确认库存和运费</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 品牌名称</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    renderCart();
+  </script>
+</body>
+</html>

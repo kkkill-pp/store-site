@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全部商品 | 品牌名称</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">品牌名</a>
+      <ul class="nav-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="products.html">商品</a></li>
+        <li><a href="about.html">关于</a></li>
+        <li><a href="cart.html" class="cart-link">购物车 <span id="cart-count">0</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>全部商品</h1>
+    </div>
+  </section>
+
+  <section class="products-page">
+    <div class="container">
+      <div class="product-grid" id="all-products">
+        <!-- JS 渲染 -->
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 品牌名称</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    renderProducts(products, 'all-products');
+    updateCartCount();
+  </script>
+</body>
+</html>
