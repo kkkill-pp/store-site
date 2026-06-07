@@ -3,63 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>鍟嗗搧绠＄悊 | 绠＄悊鍛?/title>
+  <title>鍟嗗搧绠＄悊</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
     .admin-wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-    .admin-wrap h1 { margin-bottom: 24px; }
-    .admin-wrap h2 { margin: 32px 0 16px; font-size: 1.2rem; }
+    .admin-wrap h1 { margin-bottom: 8px; font-size: 1.5rem; }
+    .admin-wrap .sub { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
 
     .token-bar {
       background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px;
       padding: 16px; margin-bottom: 24px;
     }
     .token-bar label { display: block; margin-bottom: 8px; font-weight: 600; }
-    .token-bar input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+    .token-bar input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; box-sizing: border-box; }
     .token-bar .hint { font-size: 0.8rem; color: #856404; margin-top: 6px; }
 
     .admin-form { background: #f8f9fa; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
     .admin-form .row { margin-bottom: 12px; }
     .admin-form label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; }
     .admin-form input, .admin-form textarea {
-      width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem;
+      width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box;
     }
     .admin-form textarea { min-height: 60px; resize: vertical; }
-    .admin-form .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .admin-form .row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+    .btn { display: inline-block; padding: 10px 24px; background: #1a1a2e; color: #fff; border-radius: 6px; font-size: 0.95rem; border: none; cursor: pointer; margin-right: 8px; margin-top: 8px; }
+    .btn:hover { background: #333; }
+    .btn-gray { background: #6c757d; }
+    .btn-gray:hover { background: #5a6268; }
+    .btn-red { background: #dc3545; }
+    .btn-red:hover { background: #c82333; }
+    .btn-small { padding: 4px 12px; font-size: 0.85rem; margin: 0; }
 
-    .admin-form .btn { margin-top: 12px; }
-    .btn-secondary { background: #6c757d; }
-    .btn-secondary:hover { background: #5a6268; }
-    .btn-danger { background: #dc3545; }
-    .btn-danger:hover { background: #c82333; }
-
-    .product-list .item {
+    .item-list { margin: 16px 0; }
+    .item-row {
       display: flex; justify-content: space-between; align-items: center;
       padding: 12px 16px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;
     }
-    .product-list .item .info { flex: 1; }
-    .product-list .item .name { font-weight: 600; }
-    .product-list .item .meta { font-size: 0.85rem; color: #888; }
-    .product-list .item .actions { display: flex; gap: 8px; }
-    .product-list .item .actions button { padding: 4px 12px; font-size: 0.85rem; }
+    .item-row .info { flex: 1; }
+    .item-row .name { font-weight: 600; }
+    .item-row .meta { font-size: 0.85rem; color: #888; }
 
-    .status-msg { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: none; }
-    .status-msg.success { background: #d4edda; color: #155724; display: block; }
-    .status-msg.error { background: #f8d7da; color: #721c24; display: block; }
-    .status-msg.loading { background: #cce5ff; color: #004085; display: block; }
-
-    /* 鍥剧墖涓婁紶 */
-    .upload-area {
-      border: 2px dashed #ccc; border-radius: 8px; padding: 20px;
-      text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+    .img-upload {
+      border: 2px dashed #ccc; border-radius: 8px; padding: 24px;
+      text-align: center; cursor: pointer; color: #888;
     }
-    .upload-area:hover { border-color: #1a1a2e; background: #f0f0f5; }
-    .upload-area.has-image { border-color: #28a745; background: #f0fff4; padding: 12px; }
-    .upload-area img { max-width: 150px; max-height: 150px; border-radius: 6px; margin-bottom: 8px; }
-    .upload-area .hint { font-size: 0.85rem; color: #888; }
-    #image-input { display: none; }
-    .upload-status { font-size: 0.85rem; color: #28a745; margin-top: 4px; display: none; }
+    .img-upload:hover { border-color: #1a1a2e; background: #f0f0f5; }
+    .img-upload.has-img { padding: 12px; border-color: #28a745; }
+    .img-upload img { max-width: 120px; max-height: 120px; border-radius: 6px; margin: 0 auto 8px; }
+    #file-input { display: none; }
+
+    .msg { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; }
+    .msg.ok { background: #d4edda; color: #155724; }
+    .msg.err { background: #f8d7da; color: #721c24; }
+    .msg.wait { background: #cce5ff; color: #004085; }
+    .msg.hide { display: none; }
   </style>
 </head>
 <body>
@@ -69,411 +66,353 @@
       <ul class="nav-links">
         <li><a href="index.html">棣栭〉</a></li>
         <li><a href="products.html">鍟嗗搧</a></li>
-        <li><a href="admin.html" style="color:#e63946;">绠＄悊</a></li>
+        <li><a href="admin.html" style="color:#e63946;font-weight:600;">绠＄悊</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="admin-wrap">
     <h1>鍟嗗搧绠＄悊</h1>
+    <p class="sub">娣诲姞銆佺紪杈戙€佸垹闄ゅ晢鍝侊紝鏀瑰畬鐐?鍙戝竷鍒扮綉绔?鐢熸晥</p>
 
-    <!-- Token -->
     <div class="token-bar">
-      <label>GitHub Token锛堥渶瑕?repo 鏉冮檺锛?/label>
-      <input type="password" id="github-token" placeholder="杈撳叆浣犵殑 GitHub Personal Access Token" value="">
-      <div class="hint">Token 鍙瓨鍦ㄤ綘娴忚鍣ㄩ噷銆傚～涓€娆″氨琛岋紝鍒锋柊椤甸潰涓嶄細涓€?/div>
+      <label>GitHub Token</label>
+      <input type="password" id="gh-token" placeholder="ghp_...">
+      <div class="hint">瀛樻祻瑙堝櫒閲岋紝鍙紶缁欎綘鑷繁鐨?GitHub銆備笉濉垯涓嶈兘鍙戝竷銆?/div>
     </div>
 
-    <div id="status-msg" class="status-msg"></div>
+    <div id="msg-box" class="msg hide"></div>
 
-    <!-- 娣诲姞/缂栬緫琛ㄥ崟 -->
-    <div class="admin-form" id="product-form">
+    <!-- 琛ㄥ崟 -->
+    <div class="admin-form" id="form-area">
       <h2 id="form-title">娣诲姞鍟嗗搧</h2>
-      <input type="hidden" id="edit-id" value="">
+      <input type="hidden" id="edit-id">
+
       <div class="row">
-        <label>鍟嗗搧鍚嶇О</label>
-        <input type="text" id="prod-name" placeholder="绀轰緥鍟嗗搧 1">
+        <label>鍟嗗搧鍚嶇О *</label>
+        <input id="f-name" placeholder="璺戣窇姣涚粧鐜╁叿">
       </div>
+
       <div class="row-3">
-        <div>
-          <label>鍞环 (楼)</label>
-          <input type="number" id="prod-price" placeholder="128">
-        </div>
-        <div>
-          <label>鍘熶环 (楼)</label>
-          <input type="number" id="prod-original" placeholder="188锛堢暀绌烘棤鍘熶环锛?>
-        </div>
-        <div>
-          <label>瑙掓爣</label>
-          <input type="text" id="prod-badge" placeholder="SAVE 30%锛堢暀绌烘棤瑙掓爣锛?>
-        </div>
-      </div>
-      <div class="row">
-        <label>鍟嗗搧鎻忚堪</label>
-        <textarea id="prod-desc" placeholder="鍟嗗搧鎻忚堪鏂囧瓧"></textarea>
+        <div><label>鍞环 楼 *</label><input id="f-price" type="number" placeholder="128"></div>
+        <div><label>鍘熶环 楼</label><input id="f-old" type="number" placeholder="188锛堢暀绌轰笉瑕佸師浠凤級"></div>
+        <div><label>瑙掓爣</label><input id="f-badge" placeholder="SAVE 30%锛堢暀绌烘棤锛?></div>
       </div>
 
-      <!-- 鍥剧墖涓婁紶 -->
       <div class="row">
-        <label>鍟嗗搧鍥剧墖</label>
-        <div class="upload-area" id="upload-area" onclick="document.getElementById('image-input').click()">
-          <div id="upload-preview">
-            <p>鐐瑰嚮閫夋嫨鍥剧墖</p>
-            <p class="hint">鏀寔 JPG銆丳NG銆乄ebP</p>
-          </div>
-        </div>
-        <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp">
-        <div id="upload-status" class="upload-status"></div>
-        <input type="hidden" id="prod-image" value="">
+        <label>鎻忚堪</label>
+        <textarea id="f-desc" placeholder="鍟嗗搧鎻忚堪銆佸崠鐐广€佹潗璐ㄧ瓑"></textarea>
       </div>
 
-      <button class="btn" onclick="saveProduct()">淇濆瓨鍟嗗搧</button>
-      <button class="btn btn-secondary" onclick="cancelEdit()" style="display:none;" id="cancel-btn">鍙栨秷</button>
+      <div class="row">
+        <label>鍥剧墖</label>
+        <div class="img-upload" id="img-area" onclick="document.getElementById('file-input').click()">
+          <div id="img-preview"><p>鐐瑰嚮閫夋嫨鍥剧墖</p><p style="font-size:0.8rem;">JPG / PNG / WebP</p></div>
+        </div>
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp">
+      </div>
+
+      <button class="btn" onclick="saveItem()">淇濆瓨</button>
+      <button class="btn btn-gray" id="btn-cancel" onclick="cancelEdit()" style="display:none;">鍙栨秷</button>
     </div>
 
-    <!-- 鍙戝竷鎸夐挳 -->
-    <button class="btn" onclick="publishToGitHub()" id="publish-btn">鍙戝竷鍒扮綉绔?/button>
+    <button class="btn" onclick="doPublish()" id="btn-pub">鍙戝竷鍒扮綉绔?/button>
 
-    <!-- 褰撳墠鍟嗗搧鍒楄〃 -->
-    <h2>褰撳墠鍟嗗搧</h2>
-    <div class="product-list" id="product-list">
-      <p style="color:#888;">鐐?鍔犺浇"鑾峰彇褰撳墠鍟嗗搧鏁版嵁</p>
+    <h2 style="margin-top:32px;font-size:1.1rem;">褰撳墠鍟嗗搧</h2>
+    <div class="item-list" id="item-list">
+      <p style="color:#888;">鐐?鍔犺浇"璇诲彇鐜版湁鍟嗗搧</p>
     </div>
-    <button class="btn btn-secondary" onclick="loadFromGitHub()" style="margin-top:8px;">浠?GitHub 鍔犺浇</button>
+    <button class="btn btn-gray" onclick="doLoad()">鍔犺浇</button>
   </div>
 
-  <script src="js/products.js"></script>
   <script>
-    // ===== 鏈湴鍟嗗搧绠＄悊 =====
-    let localProducts = [];
+    let items = [];
 
-    // 鎭㈠ Token 鍜屽晢鍝?    window.onload = function() {
-      const saved = localStorage.getItem('gh_token');
-      if (saved) document.getElementById('github-token').value = saved;
-      const savedProducts = localStorage.getItem('local_products');
-      if (savedProducts) {
-        try { localProducts = JSON.parse(savedProducts); renderLocalList(); } catch(e) {}
-      }
+    // 椤甸潰鍔犺浇 - 鎭㈠鏁版嵁
+    (function() {
+      var t = localStorage.getItem('_tk');
+      if (t) document.getElementById('gh-token').value = t;
+      var d = localStorage.getItem('_items');
+      if (d) try { items = JSON.parse(d); render(); } catch(e) {}
+    })();
+
+    // 鍥剧墖閫夋嫨
+    document.getElementById('file-input').onchange = function(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var r = new FileReader();
+      r.onload = function(ev) {
+        var a = document.getElementById('img-area');
+        a.classList.add('has-img');
+        document.getElementById('img-preview').innerHTML = '<img src="' + ev.target.result + '"><p style="font-size:0.8rem;color:#888;">' + file.name + '</p>';
+        a._file = file;
+      };
+      r.readAsDataURL(file);
+    };
+
+    function msg(text, type) {
+      var m = document.getElementById('msg-box');
+      m.textContent = text;
+      m.className = 'msg ' + type;
     }
 
-    // 鍥剧墖閫夋嫨 & 棰勮
-    document.getElementById('image-input').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const area = document.getElementById('upload-area');
-        area.classList.add('has-image');
-        document.getElementById('upload-preview').innerHTML =
-          '<img src="' + ev.target.result + '"><p class="hint">' + file.name + '</p>';
-        document.getElementById('prod-image').value = file.name;
-        document.getElementById('upload-status').style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    });
-
-    function renderLocalList() {
-      const el = document.getElementById('product-list');
-      if (localProducts.length === 0) {
+    function render() {
+      var el = document.getElementById('item-list');
+      if (items.length === 0) {
         el.innerHTML = '<p style="color:#888;">鏆傛棤鍟嗗搧</p>';
         return;
       }
-      el.innerHTML = localProducts.map((p, i) => `
-        <div class="item">
-          <div class="info">
-            <div class="name">${p.name}</div>
-            <div class="meta">楼${p.price}${p.originalPrice ? ' 鍘熶环楼' + p.originalPrice : ''} | ${p.badge || '鏃犺鏍?}</div>
-          </div>
-          <div class="actions">
-            <button class="btn btn-secondary" onclick="editProduct(${i})">缂栬緫</button>
-            <button class="btn btn-danger" onclick="deleteProduct(${i})">鍒犻櫎</button>
-          </div>
-        </div>
-      `).join('');
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var p = items[i];
+        html += '<div class="item-row">' +
+          '<div class="info"><div class="name">' + esc(p.name) + '</div>' +
+          '<div class="meta">楼' + p.price + (p.originalPrice ? ' 鍘熶环楼' + p.originalPrice : '') + '</div></div>' +
+          '<div><button class="btn btn-gray btn-small" onclick="editItem(' + i + ')">缂栬緫</button>' +
+          ' <button class="btn btn-red btn-small" onclick="delItem(' + i + ')">鍒犻櫎</button></div></div>';
+      }
+      el.innerHTML = html;
+      localStorage.setItem('_items', JSON.stringify(items));
     }
 
-    function saveProduct() {
-      const id = document.getElementById('edit-id').value;
-      const name = document.getElementById('prod-name').value.trim();
-      const price = parseFloat(document.getElementById('prod-price').value);
-      const original = document.getElementById('prod-original').value;
-      const badge = document.getElementById('prod-badge').value.trim();
-      const desc = document.getElementById('prod-desc').value.trim();
-      const image = document.getElementById('prod-image').value.trim();
+    function esc(s) { return (s || '').replace(/[<>&]/g, function(c) { return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }); }
 
-      if (!name || !price) { setStatus('璇疯嚦灏戝～鍐欏晢鍝佸悕绉板拰鍞环', 'error'); return; }
+    function saveItem() {
+      var id = document.getElementById('edit-id').value;
+      var name = document.getElementById('f-name').value.trim();
+      var price = parseFloat(document.getElementById('f-price').value);
+      if (!name || !price) { msg('璇峰～鍟嗗搧鍚嶇О鍜屽敭浠?, 'err'); return; }
 
-      const product = {
-        id: id || ('product-' + Date.now()),
+      var old = document.getElementById('f-old').value;
+      var badge = document.getElementById('f-badge').value.trim();
+      var desc = document.getElementById('f-desc').value.trim();
+
+      var file = (document.getElementById('img-area')._file);
+      var imgName = '';
+      if (file) {
+        imgName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      }
+
+      var obj = {
+        id: id || ('p' + Date.now()),
         name: name,
         price: price,
         description: desc || '鍟嗗搧鎻忚堪',
-        images: [image || 'placeholder.svg']
+        images: [imgName || 'placeholder.svg'],
+        _imgFile: file ? file : null,
+        _imgName: imgName
       };
-      if (original) product.originalPrice = parseFloat(original);
-      if (badge) product.badge = badge;
+      if (old) obj.originalPrice = parseFloat(old);
+      if (badge) obj.badge = badge;
 
-      if (id && localProducts.find(p => p.id === id)) {
-        const idx = localProducts.findIndex(p => p.id === id);
-        localProducts[idx] = product;
-        setStatus('鍟嗗搧宸叉洿鏂?, 'success');
+      if (id) {
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].id === id) {
+            // 淇濈暀鏃у浘鐗囦俊鎭?            if (!file) {
+              obj.images = items[i].images;
+              obj._imgFile = items[i]._imgFile || null;
+              obj._imgName = items[i]._imgName || '';
+            }
+            items[i] = obj;
+            break;
+          }
+        }
+        msg('宸叉洿鏂?, 'ok');
       } else {
-        localProducts.push(product);
-        setStatus('鍟嗗搧宸叉坊鍔?, 'success');
+        items.push(obj);
+        msg('宸叉坊鍔?, 'ok');
       }
 
-      localStorage.setItem('local_products', JSON.stringify(localProducts));
       clearForm();
-      renderLocalList();
+      render();
     }
 
-    function editProduct(idx) {
-      const p = localProducts[idx];
+    function editItem(i) {
+      var p = items[i];
       document.getElementById('edit-id').value = p.id;
-      document.getElementById('prod-name').value = p.name;
-      document.getElementById('prod-price').value = p.price;
-      document.getElementById('prod-original').value = p.originalPrice || '';
-      document.getElementById('prod-badge').value = p.badge || '';
-      document.getElementById('prod-desc').value = p.description || '';
-      document.getElementById('prod-image').value = (p.images && p.images[0] !== 'placeholder.svg') ? p.images[0] : '';
+      document.getElementById('f-name').value = p.name;
+      document.getElementById('f-price').value = p.price;
+      document.getElementById('f-old').value = p.originalPrice || '';
+      document.getElementById('f-badge').value = p.badge || '';
+      document.getElementById('f-desc').value = p.description || '';
       document.getElementById('form-title').textContent = '缂栬緫鍟嗗搧';
-      document.getElementById('cancel-btn').style.display = 'inline-block';
-      // 閲嶇疆鍥剧墖棰勮
-      const area = document.getElementById('upload-area');
-      area.classList.remove('has-image');
-      document.getElementById('upload-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鏂板浘鐗?/p><p class="hint">涓嶉€夊垯淇濈暀鍘熷浘</p>';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('btn-cancel').style.display = 'inline-block';
+      var a = document.getElementById('img-area');
+      a.classList.remove('has-img');
+      a._file = null;
+      document.getElementById('img-preview').innerHTML = '<p>鐐瑰嚮閫夋柊鍥撅紙涓嶉€変繚鐣欏師鍥撅級</p>';
     }
 
-    function deleteProduct(idx) {
-      if (!confirm('纭畾鍒犻櫎杩欎釜鍟嗗搧锛?)) return;
-      localProducts.splice(idx, 1);
-      localStorage.setItem('local_products', JSON.stringify(localProducts));
-      renderLocalList();
-      setStatus('鍟嗗搧宸插垹闄?, 'success');
+    function delItem(i) {
+      if (!confirm('纭畾鍒犻櫎锛?)) return;
+      items.splice(i, 1);
+      render();
+      msg('宸插垹闄?, 'ok');
     }
 
     function cancelEdit() { clearForm(); }
 
     function clearForm() {
       document.getElementById('edit-id').value = '';
-      document.getElementById('prod-name').value = '';
-      document.getElementById('prod-price').value = '';
-      document.getElementById('prod-original').value = '';
-      document.getElementById('prod-badge').value = '';
-      document.getElementById('prod-desc').value = '';
-      document.getElementById('prod-image').value = '';
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-price').value = '';
+      document.getElementById('f-old').value = '';
+      document.getElementById('f-badge').value = '';
+      document.getElementById('f-desc').value = '';
       document.getElementById('form-title').textContent = '娣诲姞鍟嗗搧';
-      document.getElementById('cancel-btn').style.display = 'none';
-      const area = document.getElementById('upload-area');
-      area.classList.remove('has-image');
-      document.getElementById('upload-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鍥剧墖</p><p class="hint">鏀寔 JPG銆丳NG銆乄ebP</p>';
-      document.getElementById('upload-status').style.display = 'none';
+      document.getElementById('btn-cancel').style.display = 'none';
+      resetImg();
     }
 
-    // ===== 淇濆瓨 Token =====
+    function resetImg() {
+      var a = document.getElementById('img-area');
+      a.classList.remove('has-img');
+      a._file = null;
+      document.getElementById('img-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鍥剧墖</p><p style="font-size:0.8rem;">JPG / PNG / WebP</p>';
+      document.getElementById('file-input').value = '';
+    }
+
+    // ===== GitHub =====
     function getToken() {
-      const token = document.getElementById('github-token').value.trim();
-      if (!token) { setStatus('璇峰厛杈撳叆 GitHub Token', 'error'); return null; }
-      localStorage.setItem('gh_token', token);
-      return token;
+      var t = document.getElementById('gh-token').value.trim();
+      if (!t) { msg('璇峰～ GitHub Token', 'err'); return null; }
+      localStorage.setItem('_tk', t);
+      return t;
     }
 
-    function setStatus(msg, type) {
-      const el = document.getElementById('status-msg');
-      el.textContent = msg;
-      el.className = 'status-msg ' + type;
+    function b64(s) {
+      return btoa(unescape(encodeURIComponent(s)));
     }
 
-    // ===== 涓婁紶鍥剧墖鍒?GitHub =====
-    async function uploadImage(file, token) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = async function(ev) {
+    async function uploadImg(file, name, token) {
+      var r = await fetch(file);
+      var blob = await r.blob();
+      var reader = new FileReader();
+      return new Promise(function(resolve, reject) {
+        reader.onload = async function(e) {
           try {
-            const base64 = ev.target.result.split(',')[1];
-            const fileName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-
-            // 妫€鏌ユ枃浠舵槸鍚﹀瓨鍦?            const checkResp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + fileName, {
+            var data = e.target.result.split(',')[1];
+            // 妫€鏌ユ槸鍚﹀凡瀛樺湪
+            var c = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + name, {
               headers: { 'Authorization': 'token ' + token }
             });
-            const checkData = await checkResp.json();
-            const sha = checkData.sha || null;
-
-            // 涓婁紶/瑕嗙洊
-            const putBody = {
-              message: '涓婁紶鍥剧墖 ' + fileName,
-              content: base64
-            };
-            if (sha) putBody.sha = sha;
-
-            const putResp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + fileName, {
+            var cd = await c.json();
+            var sha = cd.sha || undefined;
+            var body = { message: '涓婁紶 ' + name, content: data };
+            if (sha) body.sha = sha;
+            var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + name, {
               method: 'PUT',
-              headers: {
-                'Authorization': 'token ' + token,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(putBody)
+              headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
             });
-
-            if (putResp.ok) {
-              resolve(fileName);
-            } else {
-              const err = await putResp.json();
-              reject(err.message);
-            }
-          } catch(e) {
-            reject(e.message);
-          }
+            if (r2.ok) resolve();
+            else { var e2 = await r2.json(); reject(e2.message); }
+          } catch(e) { reject(e.message); }
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(blob);
       });
     }
 
-    // ===== 鍙戝竷鍒?GitHub =====
-    async function publishToGitHub() {
-      const token = getToken();
-      if (!token) return;
-      if (localProducts.length === 0) { setStatus('娌℃湁鍟嗗搧鍙彂甯?, 'error'); return; }
+    async function doPublish() {
+      var token = getToken();
+      if (!token || items.length === 0) { msg('娌℃湁鍟嗗搧鍙彂甯?, 'err'); return; }
 
-      setStatus('姝ｅ湪鍙戝竷...', 'loading');
-      document.getElementById('publish-btn').disabled = true;
+      msg('鍙戝竷涓?..', 'wait');
+      document.getElementById('btn-pub').disabled = true;
 
       try {
-        // 鑾峰彇褰撳墠 products.js 鐨?SHA
-        const repoUrl = 'https://api.github.com/repos/kkkill-pp/store-site';
-        const getResp = await fetch(repoUrl + '/contents/js/products.js', {
+        // 1. 涓婁紶鍥剧墖
+        var imgTasks = [];
+        for (var i = 0; i < items.length; i++) {
+          if (items[i]._imgFile && items[i]._imgName) {
+            imgTasks.push(uploadImg(items[i]._imgFile, items[i]._imgName, token));
+          }
+        }
+        if (imgTasks.length > 0) {
+          msg('涓婁紶 ' + imgTasks.length + ' 寮犲浘鐗?..', 'wait');
+          await Promise.all(imgTasks);
+        }
+
+        // 2. 鏇存柊 products.js
+        var list = items.map(function(p) {
+          var lines = ['    {'];
+          lines.push("      id: '" + p.id + "',");
+          lines.push("      name: '" + (p.name || '').replace(/'/g, "\\'") + "',");
+          lines.push('      price: ' + p.price + ',');
+          if (p.originalPrice) lines.push('      originalPrice: ' + p.originalPrice + ',');
+          if (p.badge) lines.push("      badge: '" + (p.badge || '').replace(/'/g, "\\'") + "',");
+          lines.push("      description: '" + (p.description || '').replace(/'/g, "\\'") + "',");
+          var img = (p.images && p.images[0]) ? p.images[0] : 'placeholder.svg';
+          if (p._imgName) img = p._imgName;
+          lines.push("      images: ['" + img + "']");
+          lines.push('    }');
+          return lines.join('\n');
+        });
+
+        var js = 'const products = [\n' + list.join(',\n') + '\n];\n\n' +
+          'function renderProductCard(product) {\n' +
+          '  const imgFile = product.images && product.images[0] ? product.images[0] : "placeholder.svg";\n' +
+          '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">楼${product.price}</span>${product.originalPrice ? `<span class="original-price">楼${product.originalPrice}</span>` : ""}</div></a>`;\n' +
+          '}\n\n' +
+          'function renderProducts(productList, elementId) {\n' +
+          '  const container = document.getElementById(elementId);\n' +
+          '  if (!container) return;\n' +
+          '  container.innerHTML = productList.map(p => renderProductCard(p)).join("");\n' +
+          '}\n';
+
+        // 鑾峰彇 SHA
+        var g = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
           headers: { 'Authorization': 'token ' + token }
         });
-        const getData = await getResp.json();
-        if (getData.message) { setStatus('鍔犺浇澶辫触锛? + getData.message, 'error'); document.getElementById('publish-btn').disabled = false; return; }
+        var gd = await g.json();
+        if (gd.message) { msg('GitHub 閿欒锛? + gd.message, 'err'); return; }
+        var sha = gd.sha;
 
-        const sha = getData.sha;
-
-        // 鐢熸垚鏂?products.js
-        const jsContent = generateProductsJS(localProducts);
-
-        // 鎻愪氦鏇存柊
-        const putResp = await fetch(repoUrl + '/contents/js/products.js', {
+        var p2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
           method: 'PUT',
           headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: '鏇存柊鍟嗗搧鏁版嵁',
-            content: btoa(unescape(encodeURIComponent(jsContent))),
-            sha: sha
-          })
+          body: JSON.stringify({ message: '鏇存柊鍟嗗搧', content: b64(js), sha: sha })
         });
-
-        if (putResp.ok) {
-          setStatus('鍙戝竷鎴愬姛锛佺綉绔?1-2 鍒嗛挓鍚庤嚜鍔ㄦ洿鏂?, 'success');
+        if (p2.ok) {
+          msg('鍙戝竷鎴愬姛锛?-2 鍒嗛挓鍚庣綉绔欐洿鏂?, 'ok');
+          // 娓呴櫎鏂囦欢寮曠敤
+          for (var j = 0; j < items.length; j++) {
+            delete items[j]._imgFile;
+            delete items[j]._imgName;
+          }
+          localStorage.setItem('_items', JSON.stringify(items));
         } else {
-          const err = await putResp.json();
-          setStatus('鍙戝竷澶辫触锛? + (err.message || '鏈煡閿欒'), 'error');
+          var e = await p2.json();
+          msg('鍙戝竷澶辫触锛? + (e.message || ''), 'err');
         }
       } catch(e) {
-        setStatus('缃戠粶閿欒锛? + e.message, 'error');
-      } finally {
-        document.getElementById('publish-btn').disabled = false;
+        msg('閿欒锛? + e.message, 'err');
       }
+      document.getElementById('btn-pub').disabled = false;
     }
 
-    // 甯﹀浘鐗囦笂浼犵殑鍙戝竷
-    async function saveAndPublishWithImage() {
-      const fileInput = document.getElementById('image-input');
-      const file = fileInput.files[0];
-      const token = getToken();
+    async function doLoad() {
+      var token = getToken();
       if (!token) return;
-
-      if (!file) {
-        // 娌￠€夋柊鍥剧墖锛岀洿鎺ヤ繚瀛樺晢鍝佹暟鎹?        saveProduct();
-        return;
-      }
-
-      setStatus('姝ｅ湪涓婁紶鍥剧墖...', 'loading');
-
+      msg('鍔犺浇涓?..', 'wait');
       try {
-        const fileName = await uploadImage(file, token);
-        document.getElementById('prod-image').value = fileName;
-        document.getElementById('upload-status').textContent = '鉁?鍥剧墖宸蹭笂浼?;
-        document.getElementById('upload-status').style.display = 'block';
-        saveProduct();
-      } catch(e) {
-        setStatus('鍥剧墖涓婁紶澶辫触锛? + e, 'error');
-      }
-    }
-
-    async function loadFromGitHub() {
-      const token = getToken();
-      if (!token) return;
-
-      setStatus('姝ｅ湪鍔犺浇...', 'loading');
-
-      try {
-        const resp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
+        var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
           headers: { 'Authorization': 'token ' + token }
         });
-        const data = await resp.json();
-        if (data.message) { setStatus('鍔犺浇澶辫触锛? + data.message, 'error'); return; }
-
-        const content = decodeURIComponent(escape(atob(data.content)));
-        const match = content.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
-        if (match) {
-          localProducts = eval(match[1]);
-          localStorage.setItem('local_products', JSON.stringify(localProducts));
-          renderLocalList();
-          setStatus('宸插姞杞?' + localProducts.length + ' 涓晢鍝?, 'success');
+        var d = await r.json();
+        if (d.message) { msg('鍔犺浇澶辫触锛? + d.message, 'err'); return; }
+        var c = decodeURIComponent(escape(atob(d.content)));
+        var m = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
+        if (m) {
+          items = eval(m[1]);
+          render();
+          msg('宸插姞杞?' + items.length + ' 涓晢鍝?, 'ok');
         } else {
-          setStatus('瑙ｆ瀽澶辫触锛氭壘涓嶅埌鍟嗗搧鏁版嵁', 'error');
+          msg('瑙ｆ瀽澶辫触', 'err');
         }
       } catch(e) {
-        setStatus('鍔犺浇澶辫触锛? + e.message, 'error');
+        msg('鍔犺浇澶辫触锛? + e.message, 'err');
       }
-    }
-
-    function generateProductsJS(products) {
-      const items = products.map(p => {
-        const lines = ['    {'];
-        lines.push("      id: '" + p.id + "',");
-        lines.push("      name: '" + (p.name || '').replace(/'/g, "\\'") + "',");
-        lines.push('      price: ' + p.price + ',');
-        if (p.originalPrice) lines.push('      originalPrice: ' + p.originalPrice + ',');
-        if (p.badge) lines.push("      badge: '" + (p.badge || '').replace(/'/g, "\\'") + "',");
-        lines.push("      description: '" + (p.description || '').replace(/'/g, "\\'") + "',");
-        const img = (p.images && p.images[0]) ? p.images[0] : 'placeholder.svg';
-        lines.push("      images: ['" + img + "']");
-        lines.push('    }');
-        return lines.join('\n');
-      });
-
-      return (
-`// ===== 浜у搧鏁版嵁 =====
-// 鍦?https://kkkill-pp.github.io/store-site/admin.html 涓婄鐞?
-const products = [
-${items.join(',\n')}
-];
-
-// 娓叉煋鍑芥暟
-function renderProductCard(product) {
-  const imgFile = product.images && product.images[0] ? product.images[0] : 'placeholder.svg';
-  return \`
-    <a href="product.html?id=\${product.id}" class="product-card">
-      <img src="images/\${imgFile}" alt="\${product.name}">
-      <div class="info">
-        \${product.badge ? \`<span class="badge">\${product.badge}</span>\` : ''}
-        <h3>\${product.name}</h3>
-        <span class="price">楼\${product.price}</span>
-        \${product.originalPrice ? \`<span class="original-price">楼\${product.originalPrice}</span>\` : ''}
-      </div>
-    </a>
-  \`;
-}
-
-function renderProducts(productList, elementId) {
-  const container = document.getElementById(elementId);
-  if (!container) return;
-  container.innerHTML = productList.map(p => renderProductCard(p)).join('');
-}
-`);
     }
   </script>
 </body>
