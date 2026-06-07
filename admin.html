@@ -8,25 +8,21 @@
 .wrap { max-width:800px; margin:0 auto; padding:40px 20px; }
 .wrap h1 { font-size:1.5rem; margin-bottom:4px; }
 .sub { color:#888; font-size:0.9rem; margin-bottom:24px; }
-
 .tb { background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:16px; margin-bottom:24px; }
 .tb label { display:block; font-weight:600; margin-bottom:6px; }
 .tb input { width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box; }
 .tb .h { font-size:0.8rem; color:#856404; margin-top:6px; }
-
 .frm { background:#f8f9fa; border-radius:10px; padding:24px; margin-bottom:24px; }
 .frm .r { margin-bottom:12px; }
 .frm label { display:block; font-weight:600; margin-bottom:4px; font-size:0.9rem; }
 .frm input, .frm textarea { width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:0.95rem; box-sizing:border-box; }
 .frm textarea { min-height:60px; resize:vertical; }
 .frm .r3 { display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; }
-
 .up { border:2px dashed #ccc; border-radius:8px; padding:24px; text-align:center; cursor:pointer; color:#888; }
 .up:hover { border-color:#1a1a2e; background:#f0f0f5; }
 .up.ok { padding:12px; border-color:#28a745; }
 .up img { max-width:120px; max-height:120px; border-radius:6px; margin:0 auto 8px; }
 #fi { display:none; }
-
 .btn { display:inline-block; padding:10px 24px; background:#1a1a2e; color:#fff; border-radius:6px; font-size:0.95rem; border:none; cursor:pointer; margin-right:8px; margin-top:8px; }
 .btn:hover { background:#333; }
 .btn.g { background:#6c757d; }
@@ -34,13 +30,11 @@
 .btn.r { background:#dc3545; }
 .btn.r:hover { background:#c82333; }
 .btn.s { padding:4px 12px; font-size:0.85rem; margin:0; }
-
 .list { margin:16px 0; }
 .lr { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border:1px solid #eee; border-radius:8px; margin-bottom:8px; }
 .lr .i { flex:1; }
 .lr .n { font-weight:600; }
 .lr .m { font-size:0.85rem; color:#888; }
-
 .msg { padding:12px 16px; border-radius:8px; margin-bottom:16px; }
 .msg.g { background:#d4edda; color:#155724; }
 .msg.b { background:#f8d7da; color:#721c24; }
@@ -59,14 +53,13 @@
 </div></nav>
 
 <div class="wrap">
-
 <h1>商品管理</h1>
-<p class="sub">添加 / 编辑 / 删除商品，改完点"发布到网站"</p>
+<p class="sub">添加/编辑/删除商品，改完点"发布到网站"才会生效</p>
 
 <div class="tb">
 <label>GitHub Token</label>
 <input type="password" id="tk" placeholder="ghp_...">
-<div class="h">存在浏览器里，只发给 GitHub。不填则不能发布。</div>
+<div class="h">存在浏览器里，只发给 GitHub</div>
 </div>
 
 <div id="msg" class="msg h"></div>
@@ -75,11 +68,11 @@
 <h2 id="ft">添加商品</h2>
 <input type="hidden" id="eid">
 
-<div class="r"><label>商品名称 *</label><input id="fn" placeholder="跑跑毛绒玩具"></div>
+<div class="r"><label>商品名称 *</label><input id="fn" placeholder="商品名称"></div>
 
 <div class="r3">
 <div><label>售价 *</label><input id="fp" type="number" placeholder="128"></div>
-<div><label>原价</label><input id="fo" type="number" placeholder="188（留空不要）"></div>
+<div><label>原价</label><input id="fo" type="number" placeholder="（留空不要）"></div>
 <div><label>角标</label><input id="fb" placeholder="SAVE 30%"></div>
 </div>
 
@@ -100,7 +93,6 @@
 <h2 style="margin-top:32px;font-size:1.1rem;">当前商品</h2>
 <div class="list" id="list"><p style="color:#888;">点"加载"读取现有商品</p></div>
 <button class="btn g" onclick="load()">加载</button>
-
 </div>
 
 <script>
@@ -172,12 +164,13 @@ function save(){
   var de = document.getElementById('fd').value.trim();
   var img = upFile ? (Date.now()+'_'+upFile.name.replace(/[^a-zA-Z0-9._-]/g,'')) : '';
   var obj = { id: id||('p'+Date.now()), name:na, price:pr, description:de||'描述', images:[img||'placeholder.svg'] };
+  if(upFile){ obj._file = upFile; }
   if(ol) obj.originalPrice = parseFloat(ol);
   if(bg) obj.badge = bg;
   if(id){
     for(var i=0;i<items.length;i++){
       if(items[i].id===id){
-        if(!upFile){ obj.images = items[i].images; }
+        if(!upFile){ obj.images = items[i].images; obj._file = items[i]._file||null; }
         items[i]=obj; break;
       }
     }
@@ -221,26 +214,24 @@ function gtk(){
 function b64(s){ return btoa(unescape(encodeURIComponent(s))); }
 
 async function upImg(file,name,token){
-  var r = await fetch(URL.createObjectURL(file));
-  var blob = await r.blob();
-  var rd = new FileReader();
   return new Promise(function(resolve,reject){
+    var rd = new FileReader();
     rd.onload = async function(e){
       try{
         var b = e.target.result.split(',')[1];
-        var c = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{headers:{'Authorization':'token '+token}});
-        var cd = await c.json();
-        var sha = cd.sha||null;
+        var ex = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{headers:{'Authorization':'token '+token}});
+        var exd = await ex.json();
+        var sha = exd.sha||null;
         var body = {message:'上传 '+name,content:b};
         if(sha) body.sha=sha;
-        var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{
+        var up = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/'+name,{
           method:'PUT', headers:{'Authorization':'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(body)
         });
-        if(r2.ok) resolve();
-        else { var e2 = await r2.json(); reject(e2.message); }
+        if(up.ok) resolve();
+        else { var er = await up.json(); reject(er.message); }
       }catch(e){ reject(e.message); }
     };
-    rd.readAsDataURL(blob);
+    rd.readAsDataURL(file);
   });
 }
 
@@ -254,29 +245,31 @@ async function publish(){
     // 上传图片
     for(var i=0;i<items.length;i++){
       var p = items[i];
-      if(p.images && p.images[0] && p.images[0]!=='placeholder.svg'){
-        // 尝试找对应的文件
+      if(p._file && p.images && p.images[0] && p.images[0]!=='placeholder.svg'){
+        m('正在上传图片 '+(i+1)+'/'+items.length+'...','w');
+        await upImg(p._file, p.images[0], token);
+        delete p._file;
       }
     }
 
     // 生成 products.js
     var list = items.map(function(p){
-      var l = ['    {'];
-      l.push("      id: '"+p.id+"',");
-      l.push("      name: '"+(p.name||'').replace(/'/g,"\\'")+"',");
-      l.push('      price: '+p.price+',');
-      if(p.originalPrice) l.push('      originalPrice: '+p.originalPrice+',');
-      if(p.badge) l.push("      badge: '"+(p.badge||'').replace(/'/g,"\\'")+"',");
-      l.push("      description: '"+(p.description||'').replace(/'/g,"\\'")+"',");
-      l.push("      images: ['"+((p.images&&p.images[0])||'placeholder.svg')+"']");
-      l.push('    }');
-      return l.join('\n');
+      var lines = ['    {'];
+      lines.push("      id: '"+p.id+"',");
+      lines.push("      name: '"+(p.name||'').replace(/'/g,"\\'")+"',");
+      lines.push('      price: '+p.price+',');
+      if(p.originalPrice) lines.push('      originalPrice: '+p.originalPrice+',');
+      if(p.badge) lines.push("      badge: '"+(p.badge||'').replace(/'/g,"\\'")+"',");
+      lines.push("      description: '"+(p.description||'').replace(/'/g,"\\'")+"',");
+      lines.push("      images: ['"+((p.images&&p.images[0])||'placeholder.svg')+"']");
+      lines.push('    }');
+      return lines.join('\n');
     });
 
-    var js = 'const products = [\n'+list.join(',\n')+'\n];\n\n'+
+    var js = 'var products = [\n'+list.join(',\n')+'\n];\n\n'+
       'function renderProductCard(p){\n'+
       '  var f = p.images&&p.images[0]?p.images[0]:"placeholder.svg";\n'+
-      '  return \'<a href="product.html?id=\'+p.id+\'" class="product-card"><img src="images/\'+f+\'" alt="\'+p.name+\'"><div class="info">\'+(p.badge?\'<span class="badge">\'+p.badge+\'</span>\':\'\')+\'<h3>\'+p.name+\'</h3><span class="price">\u00a5\'+p.price+\'</span>\'+(p.originalPrice?\'<span class="original-price">\u00a5\'+p.originalPrice+\'</span>\':\'\')+\'</div></a>\';\n'+
+      '  return \'<a href="product.html?id=\'+p.id+\'" class="product-card"><img src="images/\'+f+\'" alt="\'+p.name+\'"><div class="info">\'+(p.badge?\'<span class="badge">\'+p.badge+\'</span>\':\'\')+\'<h3>\'+p.name+\'</h3><span class="price">\'+p.price+\'</span>\'+(p.originalPrice?\'<span class="original-price">\'+p.originalPrice+\'</span>\':\'\')+\'</div></a>\';\n'+
       '}\n\n'+
       'function renderProducts(l,id){\n'+
       '  var c = document.getElementById(id);\n'+
@@ -288,15 +281,15 @@ async function publish(){
       headers:{'Authorization':'token '+token}
     });
     var d = await r.json();
-    if(d.message){ m('GitHub 错误: '+d.message,'b'); return; }
+    if(d.message){ m('GitHub 错误: '+JSON.stringify(d),'b'); return; }
 
     var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js',{
       method:'PUT',
       headers:{'Authorization':'token '+token,'Content-Type':'application/json'},
       body:JSON.stringify({message:'更新商品',content:b64(js),sha:d.sha})
     });
-    if(r2.ok){ m('发布成功！1-2 分钟生效','g'); }
-    else { var e = await r2.json(); m('发布失败: '+(e.message||''),'b'); }
+    if(r2.ok){ m('发布成功！1-2 分钟后生效','g'); }
+    else { var e2 = await r2.json(); m('发布失败: '+(e2.message||JSON.stringify(e2)),'b'); }
   }catch(e){ m('错误: '+e.message,'b'); }
   document.getElementById('pub').disabled=false;
 }
@@ -312,7 +305,7 @@ async function load(){
     var d = await r.json();
     if(d.message){ m('加载失败: '+d.message,'b'); return; }
     var c = decodeURIComponent(escape(atob(d.content)));
-    var mc = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
+    var mc = c.match(/(?:const|var)\s+products\s*=\s*(\[[\s\S]*?\]);/);
     if(mc){
       items = eval(mc[1]);
       rl();
