@@ -2,22 +2,22 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>绠＄悊</title>
+<title>管理</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <nav class="navbar"><div class="container">
-<a href="index.html" class="logo">鍝佺墝鍚?/a>
+<a href="index.html" class="logo">品牌名</a>
 <ul class="nav-links">
-<li><a href="index.html">棣栭〉</a></li>
-<li><a href="products.html">鍟嗗搧</a></li>
-<li><a href="admin.html" style="color:#e63946;">绠＄悊</a></li>
+<li><a href="index.html">首页</a></li>
+<li><a href="products.html">商品</a></li>
+<li><a href="admin.html" style="color:#e63946;">管理</a></li>
 </ul>
 </div></nav>
 
 <div style="max-width:600px;margin:40px auto;padding:0 20px;">
-<h2>绠€鏄撳晢鍝佺鐞?/h2>
-<p style="color:#888;margin-bottom:20px;">鐩存帴鍦ㄦ枃鏈閲岀紪杈?JSON锛屾敼瀹岀偣鍙戝竷</p>
+<h2>简易商品管理</h2>
+<p style="color:#888;margin-bottom:20px;">直接在文本框里编辑 JSON，改完点发布</p>
 
 <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-bottom:16px;">
 <label style="font-weight:600;display:block;margin-bottom:4px;">GitHub Token</label>
@@ -26,12 +26,12 @@
 
 <div id="msg" style="display:none;padding:12px;border-radius:8px;margin-bottom:12px;"></div>
 
-<p style="margin-bottom:8px;font-weight:600;">鍟嗗搧鏁版嵁 (JSON 鏍煎紡)</p>
+<p style="margin-bottom:8px;font-weight:600;">商品数据 (JSON 格式)</p>
 <textarea id="data" style="width:100%;height:400px;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:monospace;font-size:13px;box-sizing:border-box;resize:vertical;"></textarea>
 
 <div style="margin-top:12px;">
-<button class="btn" onclick="doPub()">鍙戝竷</button>
-<button class="btn" style="background:#6c757d;" onclick="doLoad()">鍔犺浇</button>
+<button class="btn" onclick="doPub()">发布</button>
+<button class="btn" style="background:#6c757d;" onclick="doLoad()">加载</button>
 </div>
 </div>
 
@@ -56,14 +56,14 @@ function b64(s) { return btoa(unescape(encodeURIComponent(s))); }
 
 async function doPub() {
   var token = tk.value.trim();
-  if (!token) { show('璇峰～ Token', 'err'); return; }
+  if (!token) { show('请填 Token', 'err'); return; }
   localStorage.setItem('_tk', token);
 
   var data;
-  try { data = JSON.parse(ta.value); } catch(e) { show('JSON 鏍煎紡閿欒锛? + e.message, 'err'); return; }
-  if (!Array.isArray(data) || data.length === 0) { show('鑷冲皯濉竴涓晢鍝?, 'err'); return; }
+  try { data = JSON.parse(ta.value); } catch(e) { show('JSON 格式错误：' + e.message, 'err'); return; }
+  if (!Array.isArray(data) || data.length === 0) { show('至少填一个商品', 'err'); return; }
 
-  show('鍙戝竷涓?..', '');
+  show('发布中...', '');
 
   var items = data.map(function(p, i) {
     return '    {\n' +
@@ -80,7 +80,7 @@ async function doPub() {
   var js = 'const products = [\n' + items.join(',\n') + '\n];\n\n' +
     'function renderProductCard(product) {\n' +
     '  const imgFile = product.images && product.images[0] ? product.images[0] : "placeholder.svg";\n' +
-    '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">楼${product.price}</span>${product.originalPrice ? `<span class="original-price">楼${product.originalPrice}</span>` : ""}</div></a>`;\n' +
+    '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">¥${product.price}</span>${product.originalPrice ? `<span class="original-price">¥${product.originalPrice}</span>` : ""}</div></a>`;\n' +
     '}\n\n' +
     'function renderProducts(productList, elementId) {\n' +
     '  const container = document.getElementById(elementId);\n' +
@@ -93,28 +93,28 @@ async function doPub() {
       headers: { 'Authorization': 'token ' + token }
     });
     var d = await r.json();
-    if (d.message) { show('GitHub 閿欒锛? + d.message, 'err'); return; }
+    if (d.message) { show('GitHub 错误：' + d.message, 'err'); return; }
 
     var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
       method: 'PUT',
       headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: '鏇存柊鍟嗗搧', content: b64(js), sha: d.sha })
+      body: JSON.stringify({ message: '更新商品', content: b64(js), sha: d.sha })
     });
-    if (r2.ok) { show('鍙戝竷鎴愬姛锛?-2 鍒嗛挓鐢熸晥', 'ok'); }
-    else { var e = await r2.json(); show('鍙戝竷澶辫触锛? + (e.message || ''), 'err'); }
-  } catch(e) { show('缃戠粶閿欒锛? + e.message, 'err'); }
+    if (r2.ok) { show('发布成功！1-2 分钟生效', 'ok'); }
+    else { var e = await r2.json(); show('发布失败：' + (e.message || ''), 'err'); }
+  } catch(e) { show('网络错误：' + e.message, 'err'); }
 }
 
 async function doLoad() {
   var token = tk.value.trim();
-  if (!token) { show('璇峰～ Token', 'err'); return; }
-  show('鍔犺浇涓?..', '');
+  if (!token) { show('请填 Token', 'err'); return; }
+  show('加载中...', '');
   try {
     var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
       headers: { 'Authorization': 'token ' + token }
     });
     var d = await r.json();
-    if (d.message) { show('鍔犺浇澶辫触锛? + d.message, 'err'); return; }
+    if (d.message) { show('加载失败：' + d.message, 'err'); return; }
     var c = decodeURIComponent(escape(atob(d.content)));
     var m = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
     if (m) {
@@ -122,9 +122,9 @@ async function doLoad() {
       ta.value = JSON.stringify(items.map(function(p) {
         return { name: p.name, price: p.price, originalPrice: p.originalPrice, badge: p.badge, description: p.description, image: (p.images && p.images[0]) || '' };
       }), null, 2);
-      show('宸插姞杞?' + items.length + ' 涓晢鍝?, 'ok');
-    } else { show('瑙ｆ瀽澶辫触', 'err'); }
-  } catch(e) { show('鍔犺浇澶辫触锛? + e.message, 'err'); }
+      show('已加载 ' + items.length + ' 个商品', 'ok');
+    } else { show('解析失败', 'err'); }
+  } catch(e) { show('加载失败：' + e.message, 'err'); }
 }
 </script>
 </body>
