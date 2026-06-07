@@ -1,419 +1,131 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>鍟嗗搧绠＄悊</title>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .admin-wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-    .admin-wrap h1 { margin-bottom: 8px; font-size: 1.5rem; }
-    .admin-wrap .sub { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
-
-    .token-bar {
-      background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px;
-      padding: 16px; margin-bottom: 24px;
-    }
-    .token-bar label { display: block; margin-bottom: 8px; font-weight: 600; }
-    .token-bar input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; box-sizing: border-box; }
-    .token-bar .hint { font-size: 0.8rem; color: #856404; margin-top: 6px; }
-
-    .admin-form { background: #f8f9fa; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
-    .admin-form .row { margin-bottom: 12px; }
-    .admin-form label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; }
-    .admin-form input, .admin-form textarea {
-      width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box;
-    }
-    .admin-form textarea { min-height: 60px; resize: vertical; }
-    .admin-form .row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
-    .btn { display: inline-block; padding: 10px 24px; background: #1a1a2e; color: #fff; border-radius: 6px; font-size: 0.95rem; border: none; cursor: pointer; margin-right: 8px; margin-top: 8px; }
-    .btn:hover { background: #333; }
-    .btn-gray { background: #6c757d; }
-    .btn-gray:hover { background: #5a6268; }
-    .btn-red { background: #dc3545; }
-    .btn-red:hover { background: #c82333; }
-    .btn-small { padding: 4px 12px; font-size: 0.85rem; margin: 0; }
-
-    .item-list { margin: 16px 0; }
-    .item-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 16px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;
-    }
-    .item-row .info { flex: 1; }
-    .item-row .name { font-weight: 600; }
-    .item-row .meta { font-size: 0.85rem; color: #888; }
-
-    .img-upload {
-      border: 2px dashed #ccc; border-radius: 8px; padding: 24px;
-      text-align: center; cursor: pointer; color: #888;
-    }
-    .img-upload:hover { border-color: #1a1a2e; background: #f0f0f5; }
-    .img-upload.has-img { padding: 12px; border-color: #28a745; }
-    .img-upload img { max-width: 120px; max-height: 120px; border-radius: 6px; margin: 0 auto 8px; }
-    #file-input { display: none; }
-
-    .msg { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; }
-    .msg.ok { background: #d4edda; color: #155724; }
-    .msg.err { background: #f8d7da; color: #721c24; }
-    .msg.wait { background: #cce5ff; color: #004085; }
-    .msg.hide { display: none; }
-  </style>
+<meta charset="utf-8">
+<title>绠＄悊</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">鍝佺墝鍚?/a>
-      <ul class="nav-links">
-        <li><a href="index.html">棣栭〉</a></li>
-        <li><a href="products.html">鍟嗗搧</a></li>
-        <li><a href="admin.html" style="color:#e63946;font-weight:600;">绠＄悊</a></li>
-      </ul>
-    </div>
-  </nav>
+<nav class="navbar"><div class="container">
+<a href="index.html" class="logo">鍝佺墝鍚?/a>
+<ul class="nav-links">
+<li><a href="index.html">棣栭〉</a></li>
+<li><a href="products.html">鍟嗗搧</a></li>
+<li><a href="admin.html" style="color:#e63946;">绠＄悊</a></li>
+</ul>
+</div></nav>
 
-  <div class="admin-wrap">
-    <h1>鍟嗗搧绠＄悊</h1>
-    <p class="sub">娣诲姞銆佺紪杈戙€佸垹闄ゅ晢鍝侊紝鏀瑰畬鐐?鍙戝竷鍒扮綉绔?鐢熸晥</p>
+<div style="max-width:600px;margin:40px auto;padding:0 20px;">
+<h2>绠€鏄撳晢鍝佺鐞?/h2>
+<p style="color:#888;margin-bottom:20px;">鐩存帴鍦ㄦ枃鏈閲岀紪杈?JSON锛屾敼瀹岀偣鍙戝竷</p>
 
-    <div class="token-bar">
-      <label>GitHub Token</label>
-      <input type="password" id="gh-token" placeholder="ghp_...">
-      <div class="hint">瀛樻祻瑙堝櫒閲岋紝鍙紶缁欎綘鑷繁鐨?GitHub銆備笉濉垯涓嶈兘鍙戝竷銆?/div>
-    </div>
+<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-bottom:16px;">
+<label style="font-weight:600;display:block;margin-bottom:4px;">GitHub Token</label>
+<input id="tk" type="password" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;box-sizing:border-box;">
+</div>
 
-    <div id="msg-box" class="msg hide"></div>
+<div id="msg" style="display:none;padding:12px;border-radius:8px;margin-bottom:12px;"></div>
 
-    <!-- 琛ㄥ崟 -->
-    <div class="admin-form" id="form-area">
-      <h2 id="form-title">娣诲姞鍟嗗搧</h2>
-      <input type="hidden" id="edit-id">
+<p style="margin-bottom:8px;font-weight:600;">鍟嗗搧鏁版嵁 (JSON 鏍煎紡)</p>
+<textarea id="data" style="width:100%;height:400px;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:monospace;font-size:13px;box-sizing:border-box;resize:vertical;"></textarea>
 
-      <div class="row">
-        <label>鍟嗗搧鍚嶇О *</label>
-        <input id="f-name" placeholder="璺戣窇姣涚粧鐜╁叿">
-      </div>
+<div style="margin-top:12px;">
+<button class="btn" onclick="doPub()">鍙戝竷</button>
+<button class="btn" style="background:#6c757d;" onclick="doLoad()">鍔犺浇</button>
+</div>
+</div>
 
-      <div class="row-3">
-        <div><label>鍞环 楼 *</label><input id="f-price" type="number" placeholder="128"></div>
-        <div><label>鍘熶环 楼</label><input id="f-old" type="number" placeholder="188锛堢暀绌轰笉瑕佸師浠凤級"></div>
-        <div><label>瑙掓爣</label><input id="f-badge" placeholder="SAVE 30%锛堢暀绌烘棤锛?></div>
-      </div>
+<script>
+var tk = document.getElementById('tk');
+var ta = document.getElementById('data');
+var msg = document.getElementById('msg');
 
-      <div class="row">
-        <label>鎻忚堪</label>
-        <textarea id="f-desc" placeholder="鍟嗗搧鎻忚堪銆佸崠鐐广€佹潗璐ㄧ瓑"></textarea>
-      </div>
+tk.value = localStorage.getItem('_tk') || '';
 
-      <div class="row">
-        <label>鍥剧墖</label>
-        <div class="img-upload" id="img-area" onclick="document.getElementById('file-input').click()">
-          <div id="img-preview"><p>鐐瑰嚮閫夋嫨鍥剧墖</p><p style="font-size:0.8rem;">JPG / PNG / WebP</p></div>
-        </div>
-        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp">
-      </div>
+function show(text, cls) {
+  msg.textContent = text;
+  msg.style.display = 'block';
+  msg.className = cls || '';
+  msg.style.background = cls === 'err' ? '#f8d7da' : cls === 'ok' ? '#d4edda' : '#cce5ff';
+  msg.style.color = cls === 'err' ? '#721c24' : cls === 'ok' ? '#155724' : '#004085';
+}
 
-      <button class="btn" onclick="saveItem()">淇濆瓨</button>
-      <button class="btn btn-gray" id="btn-cancel" onclick="cancelEdit()" style="display:none;">鍙栨秷</button>
-    </div>
+function esc(s) { return s.replace(/[<>&]/g, function(c) { return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }); }
 
-    <button class="btn" onclick="doPublish()" id="btn-pub">鍙戝竷鍒扮綉绔?/button>
+function b64(s) { return btoa(unescape(encodeURIComponent(s))); }
 
-    <h2 style="margin-top:32px;font-size:1.1rem;">褰撳墠鍟嗗搧</h2>
-    <div class="item-list" id="item-list">
-      <p style="color:#888;">鐐?鍔犺浇"璇诲彇鐜版湁鍟嗗搧</p>
-    </div>
-    <button class="btn btn-gray" onclick="doLoad()">鍔犺浇</button>
-  </div>
+async function doPub() {
+  var token = tk.value.trim();
+  if (!token) { show('璇峰～ Token', 'err'); return; }
+  localStorage.setItem('_tk', token);
 
-  <script>
-    let items = [];
+  var data;
+  try { data = JSON.parse(ta.value); } catch(e) { show('JSON 鏍煎紡閿欒锛? + e.message, 'err'); return; }
+  if (!Array.isArray(data) || data.length === 0) { show('鑷冲皯濉竴涓晢鍝?, 'err'); return; }
 
-    // 椤甸潰鍔犺浇 - 鎭㈠鏁版嵁
-    (function() {
-      var t = localStorage.getItem('_tk');
-      if (t) document.getElementById('gh-token').value = t;
-      var d = localStorage.getItem('_items');
-      if (d) try { items = JSON.parse(d); render(); } catch(e) {}
-    })();
+  show('鍙戝竷涓?..', '');
 
-    // 鍥剧墖閫夋嫨
-    document.getElementById('file-input').onchange = function(e) {
-      var file = e.target.files[0];
-      if (!file) return;
-      var r = new FileReader();
-      r.onload = function(ev) {
-        var a = document.getElementById('img-area');
-        a.classList.add('has-img');
-        document.getElementById('img-preview').innerHTML = '<img src="' + ev.target.result + '"><p style="font-size:0.8rem;color:#888;">' + file.name + '</p>';
-        a._file = file;
-      };
-      r.readAsDataURL(file);
-    };
+  var items = data.map(function(p, i) {
+    return '    {\n' +
+      "      id: 'p" + Date.now() + i + "',\n" +
+      "      name: '" + esc(String(p.name || '')).replace(/'/g, "\\'") + "',\n" +
+      "      price: " + (parseFloat(p.price) || 0) + ",\n" +
+      (p.originalPrice ? "      originalPrice: " + parseFloat(p.originalPrice) + ",\n" : '') +
+      (p.badge ? "      badge: '" + esc(String(p.badge)).replace(/'/g, "\\'") + "',\n" : '') +
+      "      description: '" + esc(String(p.description || '')).replace(/'/g, "\\'") + "',\n" +
+      "      images: ['" + (p.image || 'placeholder.svg') + "']\n" +
+      '    }';
+  });
 
-    function msg(text, type) {
-      var m = document.getElementById('msg-box');
-      m.textContent = text;
-      m.className = 'msg ' + type;
-    }
+  var js = 'const products = [\n' + items.join(',\n') + '\n];\n\n' +
+    'function renderProductCard(product) {\n' +
+    '  const imgFile = product.images && product.images[0] ? product.images[0] : "placeholder.svg";\n' +
+    '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">楼${product.price}</span>${product.originalPrice ? `<span class="original-price">楼${product.originalPrice}</span>` : ""}</div></a>`;\n' +
+    '}\n\n' +
+    'function renderProducts(productList, elementId) {\n' +
+    '  const container = document.getElementById(elementId);\n' +
+    '  if (!container) return;\n' +
+    '  container.innerHTML = productList.map(p => renderProductCard(p)).join("");\n' +
+    '}\n';
 
-    function render() {
-      var el = document.getElementById('item-list');
-      if (items.length === 0) {
-        el.innerHTML = '<p style="color:#888;">鏆傛棤鍟嗗搧</p>';
-        return;
-      }
-      var html = '';
-      for (var i = 0; i < items.length; i++) {
-        var p = items[i];
-        html += '<div class="item-row">' +
-          '<div class="info"><div class="name">' + esc(p.name) + '</div>' +
-          '<div class="meta">楼' + p.price + (p.originalPrice ? ' 鍘熶环楼' + p.originalPrice : '') + '</div></div>' +
-          '<div><button class="btn btn-gray btn-small" onclick="editItem(' + i + ')">缂栬緫</button>' +
-          ' <button class="btn btn-red btn-small" onclick="delItem(' + i + ')">鍒犻櫎</button></div></div>';
-      }
-      el.innerHTML = html;
-      localStorage.setItem('_items', JSON.stringify(items));
-    }
+  try {
+    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
+      headers: { 'Authorization': 'token ' + token }
+    });
+    var d = await r.json();
+    if (d.message) { show('GitHub 閿欒锛? + d.message, 'err'); return; }
 
-    function esc(s) { return (s || '').replace(/[<>&]/g, function(c) { return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }); }
+    var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '鏇存柊鍟嗗搧', content: b64(js), sha: d.sha })
+    });
+    if (r2.ok) { show('鍙戝竷鎴愬姛锛?-2 鍒嗛挓鐢熸晥', 'ok'); }
+    else { var e = await r2.json(); show('鍙戝竷澶辫触锛? + (e.message || ''), 'err'); }
+  } catch(e) { show('缃戠粶閿欒锛? + e.message, 'err'); }
+}
 
-    function saveItem() {
-      var id = document.getElementById('edit-id').value;
-      var name = document.getElementById('f-name').value.trim();
-      var price = parseFloat(document.getElementById('f-price').value);
-      if (!name || !price) { msg('璇峰～鍟嗗搧鍚嶇О鍜屽敭浠?, 'err'); return; }
-
-      var old = document.getElementById('f-old').value;
-      var badge = document.getElementById('f-badge').value.trim();
-      var desc = document.getElementById('f-desc').value.trim();
-
-      var file = (document.getElementById('img-area')._file);
-      var imgName = '';
-      if (file) {
-        imgName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-      }
-
-      var obj = {
-        id: id || ('p' + Date.now()),
-        name: name,
-        price: price,
-        description: desc || '鍟嗗搧鎻忚堪',
-        images: [imgName || 'placeholder.svg'],
-        _imgFile: file ? file : null,
-        _imgName: imgName
-      };
-      if (old) obj.originalPrice = parseFloat(old);
-      if (badge) obj.badge = badge;
-
-      if (id) {
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].id === id) {
-            // 淇濈暀鏃у浘鐗囦俊鎭?            if (!file) {
-              obj.images = items[i].images;
-              obj._imgFile = items[i]._imgFile || null;
-              obj._imgName = items[i]._imgName || '';
-            }
-            items[i] = obj;
-            break;
-          }
-        }
-        msg('宸叉洿鏂?, 'ok');
-      } else {
-        items.push(obj);
-        msg('宸叉坊鍔?, 'ok');
-      }
-
-      clearForm();
-      render();
-    }
-
-    function editItem(i) {
-      var p = items[i];
-      document.getElementById('edit-id').value = p.id;
-      document.getElementById('f-name').value = p.name;
-      document.getElementById('f-price').value = p.price;
-      document.getElementById('f-old').value = p.originalPrice || '';
-      document.getElementById('f-badge').value = p.badge || '';
-      document.getElementById('f-desc').value = p.description || '';
-      document.getElementById('form-title').textContent = '缂栬緫鍟嗗搧';
-      document.getElementById('btn-cancel').style.display = 'inline-block';
-      var a = document.getElementById('img-area');
-      a.classList.remove('has-img');
-      a._file = null;
-      document.getElementById('img-preview').innerHTML = '<p>鐐瑰嚮閫夋柊鍥撅紙涓嶉€変繚鐣欏師鍥撅級</p>';
-    }
-
-    function delItem(i) {
-      if (!confirm('纭畾鍒犻櫎锛?)) return;
-      items.splice(i, 1);
-      render();
-      msg('宸插垹闄?, 'ok');
-    }
-
-    function cancelEdit() { clearForm(); }
-
-    function clearForm() {
-      document.getElementById('edit-id').value = '';
-      document.getElementById('f-name').value = '';
-      document.getElementById('f-price').value = '';
-      document.getElementById('f-old').value = '';
-      document.getElementById('f-badge').value = '';
-      document.getElementById('f-desc').value = '';
-      document.getElementById('form-title').textContent = '娣诲姞鍟嗗搧';
-      document.getElementById('btn-cancel').style.display = 'none';
-      resetImg();
-    }
-
-    function resetImg() {
-      var a = document.getElementById('img-area');
-      a.classList.remove('has-img');
-      a._file = null;
-      document.getElementById('img-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鍥剧墖</p><p style="font-size:0.8rem;">JPG / PNG / WebP</p>';
-      document.getElementById('file-input').value = '';
-    }
-
-    // ===== GitHub =====
-    function getToken() {
-      var t = document.getElementById('gh-token').value.trim();
-      if (!t) { msg('璇峰～ GitHub Token', 'err'); return null; }
-      localStorage.setItem('_tk', t);
-      return t;
-    }
-
-    function b64(s) {
-      return btoa(unescape(encodeURIComponent(s)));
-    }
-
-    async function uploadImg(file, name, token) {
-      var r = await fetch(file);
-      var blob = await r.blob();
-      var reader = new FileReader();
-      return new Promise(function(resolve, reject) {
-        reader.onload = async function(e) {
-          try {
-            var data = e.target.result.split(',')[1];
-            // 妫€鏌ユ槸鍚﹀凡瀛樺湪
-            var c = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + name, {
-              headers: { 'Authorization': 'token ' + token }
-            });
-            var cd = await c.json();
-            var sha = cd.sha || undefined;
-            var body = { message: '涓婁紶 ' + name, content: data };
-            if (sha) body.sha = sha;
-            var r2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + name, {
-              method: 'PUT',
-              headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-              body: JSON.stringify(body)
-            });
-            if (r2.ok) resolve();
-            else { var e2 = await r2.json(); reject(e2.message); }
-          } catch(e) { reject(e.message); }
-        };
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function doPublish() {
-      var token = getToken();
-      if (!token || items.length === 0) { msg('娌℃湁鍟嗗搧鍙彂甯?, 'err'); return; }
-
-      msg('鍙戝竷涓?..', 'wait');
-      document.getElementById('btn-pub').disabled = true;
-
-      try {
-        // 1. 涓婁紶鍥剧墖
-        var imgTasks = [];
-        for (var i = 0; i < items.length; i++) {
-          if (items[i]._imgFile && items[i]._imgName) {
-            imgTasks.push(uploadImg(items[i]._imgFile, items[i]._imgName, token));
-          }
-        }
-        if (imgTasks.length > 0) {
-          msg('涓婁紶 ' + imgTasks.length + ' 寮犲浘鐗?..', 'wait');
-          await Promise.all(imgTasks);
-        }
-
-        // 2. 鏇存柊 products.js
-        var list = items.map(function(p) {
-          var lines = ['    {'];
-          lines.push("      id: '" + p.id + "',");
-          lines.push("      name: '" + (p.name || '').replace(/'/g, "\\'") + "',");
-          lines.push('      price: ' + p.price + ',');
-          if (p.originalPrice) lines.push('      originalPrice: ' + p.originalPrice + ',');
-          if (p.badge) lines.push("      badge: '" + (p.badge || '').replace(/'/g, "\\'") + "',");
-          lines.push("      description: '" + (p.description || '').replace(/'/g, "\\'") + "',");
-          var img = (p.images && p.images[0]) ? p.images[0] : 'placeholder.svg';
-          if (p._imgName) img = p._imgName;
-          lines.push("      images: ['" + img + "']");
-          lines.push('    }');
-          return lines.join('\n');
-        });
-
-        var js = 'const products = [\n' + list.join(',\n') + '\n];\n\n' +
-          'function renderProductCard(product) {\n' +
-          '  const imgFile = product.images && product.images[0] ? product.images[0] : "placeholder.svg";\n' +
-          '  return `<a href="product.html?id=${product.id}" class="product-card"><img src="images/${imgFile}" alt="${product.name}"><div class="info">${product.badge ? `<span class="badge">${product.badge}</span>` : ""}<h3>${product.name}</h3><span class="price">楼${product.price}</span>${product.originalPrice ? `<span class="original-price">楼${product.originalPrice}</span>` : ""}</div></a>`;\n' +
-          '}\n\n' +
-          'function renderProducts(productList, elementId) {\n' +
-          '  const container = document.getElementById(elementId);\n' +
-          '  if (!container) return;\n' +
-          '  container.innerHTML = productList.map(p => renderProductCard(p)).join("");\n' +
-          '}\n';
-
-        // 鑾峰彇 SHA
-        var g = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-          headers: { 'Authorization': 'token ' + token }
-        });
-        var gd = await g.json();
-        if (gd.message) { msg('GitHub 閿欒锛? + gd.message, 'err'); return; }
-        var sha = gd.sha;
-
-        var p2 = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-          method: 'PUT',
-          headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: '鏇存柊鍟嗗搧', content: b64(js), sha: sha })
-        });
-        if (p2.ok) {
-          msg('鍙戝竷鎴愬姛锛?-2 鍒嗛挓鍚庣綉绔欐洿鏂?, 'ok');
-          // 娓呴櫎鏂囦欢寮曠敤
-          for (var j = 0; j < items.length; j++) {
-            delete items[j]._imgFile;
-            delete items[j]._imgName;
-          }
-          localStorage.setItem('_items', JSON.stringify(items));
-        } else {
-          var e = await p2.json();
-          msg('鍙戝竷澶辫触锛? + (e.message || ''), 'err');
-        }
-      } catch(e) {
-        msg('閿欒锛? + e.message, 'err');
-      }
-      document.getElementById('btn-pub').disabled = false;
-    }
-
-    async function doLoad() {
-      var token = getToken();
-      if (!token) return;
-      msg('鍔犺浇涓?..', 'wait');
-      try {
-        var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-          headers: { 'Authorization': 'token ' + token }
-        });
-        var d = await r.json();
-        if (d.message) { msg('鍔犺浇澶辫触锛? + d.message, 'err'); return; }
-        var c = decodeURIComponent(escape(atob(d.content)));
-        var m = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
-        if (m) {
-          items = eval(m[1]);
-          render();
-          msg('宸插姞杞?' + items.length + ' 涓晢鍝?, 'ok');
-        } else {
-          msg('瑙ｆ瀽澶辫触', 'err');
-        }
-      } catch(e) {
-        msg('鍔犺浇澶辫触锛? + e.message, 'err');
-      }
-    }
-  </script>
+async function doLoad() {
+  var token = tk.value.trim();
+  if (!token) { show('璇峰～ Token', 'err'); return; }
+  show('鍔犺浇涓?..', '');
+  try {
+    var r = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
+      headers: { 'Authorization': 'token ' + token }
+    });
+    var d = await r.json();
+    if (d.message) { show('鍔犺浇澶辫触锛? + d.message, 'err'); return; }
+    var c = decodeURIComponent(escape(atob(d.content)));
+    var m = c.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
+    if (m) {
+      var items = eval(m[1]);
+      ta.value = JSON.stringify(items.map(function(p) {
+        return { name: p.name, price: p.price, originalPrice: p.originalPrice, badge: p.badge, description: p.description, image: (p.images && p.images[0]) || '' };
+      }), null, 2);
+      show('宸插姞杞?' + items.length + ' 涓晢鍝?, 'ok');
+    } else { show('瑙ｆ瀽澶辫触', 'err'); }
+  } catch(e) { show('鍔犺浇澶辫触锛? + e.message, 'err'); }
+}
+</script>
 </body>
 </html>
