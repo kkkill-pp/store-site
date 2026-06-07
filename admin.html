@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品管理 | 管理员</title>
+  <title>鍟嗗搧绠＄悊 | 绠＄悊鍛?/title>
   <link rel="stylesheet" href="css/style.css">
   <style>
     .admin-wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
@@ -48,97 +48,145 @@
     .status-msg.success { background: #d4edda; color: #155724; display: block; }
     .status-msg.error { background: #f8d7da; color: #721c24; display: block; }
     .status-msg.loading { background: #cce5ff; color: #004085; display: block; }
+
+    /* 鍥剧墖涓婁紶 */
+    .upload-area {
+      border: 2px dashed #ccc; border-radius: 8px; padding: 20px;
+      text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+    }
+    .upload-area:hover { border-color: #1a1a2e; background: #f0f0f5; }
+    .upload-area.has-image { border-color: #28a745; background: #f0fff4; padding: 12px; }
+    .upload-area img { max-width: 150px; max-height: 150px; border-radius: 6px; margin-bottom: 8px; }
+    .upload-area .hint { font-size: 0.85rem; color: #888; }
+    #image-input { display: none; }
+    .upload-status { font-size: 0.85rem; color: #28a745; margin-top: 4px; display: none; }
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="container">
-      <a href="index.html" class="logo">品牌名</a>
+      <a href="index.html" class="logo">鍝佺墝鍚?/a>
       <ul class="nav-links">
-        <li><a href="index.html">首页</a></li>
-        <li><a href="products.html">商品</a></li>
-        <li><a href="admin.html" style="color:#e63946;">管理</a></li>
+        <li><a href="index.html">棣栭〉</a></li>
+        <li><a href="products.html">鍟嗗搧</a></li>
+        <li><a href="admin.html" style="color:#e63946;">绠＄悊</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="admin-wrap">
-    <h1>商品管理</h1>
+    <h1>鍟嗗搧绠＄悊</h1>
 
     <!-- Token -->
     <div class="token-bar">
-      <label>GitHub Token（需要 repo 权限）</label>
-      <input type="password" id="github-token" placeholder="输入你的 GitHub Personal Access Token">
-      <div class="hint">Token 只存在你浏览器里，不会发到其他地方。</div>
+      <label>GitHub Token锛堥渶瑕?repo 鏉冮檺锛?/label>
+      <input type="password" id="github-token" placeholder="杈撳叆浣犵殑 GitHub Personal Access Token" value="">
+      <div class="hint">Token 鍙瓨鍦ㄤ綘娴忚鍣ㄩ噷銆傚～涓€娆″氨琛岋紝鍒锋柊椤甸潰涓嶄細涓€?/div>
     </div>
 
     <div id="status-msg" class="status-msg"></div>
 
-    <!-- 添加/编辑表单 -->
+    <!-- 娣诲姞/缂栬緫琛ㄥ崟 -->
     <div class="admin-form" id="product-form">
-      <h2 id="form-title">添加商品</h2>
+      <h2 id="form-title">娣诲姞鍟嗗搧</h2>
       <input type="hidden" id="edit-id" value="">
       <div class="row">
-        <label>商品名称</label>
-        <input type="text" id="prod-name" placeholder="示例商品 1">
+        <label>鍟嗗搧鍚嶇О</label>
+        <input type="text" id="prod-name" placeholder="绀轰緥鍟嗗搧 1">
       </div>
       <div class="row-3">
         <div>
-          <label>售价 (¥)</label>
+          <label>鍞环 (楼)</label>
           <input type="number" id="prod-price" placeholder="128">
         </div>
         <div>
-          <label>原价 (¥)</label>
-          <input type="number" id="prod-original" placeholder="188（留空无原价）">
+          <label>鍘熶环 (楼)</label>
+          <input type="number" id="prod-original" placeholder="188锛堢暀绌烘棤鍘熶环锛?>
         </div>
         <div>
-          <label>角标</label>
-          <input type="text" id="prod-badge" placeholder="SAVE 30%（留空无角标）">
+          <label>瑙掓爣</label>
+          <input type="text" id="prod-badge" placeholder="SAVE 30%锛堢暀绌烘棤瑙掓爣锛?>
         </div>
       </div>
       <div class="row">
-        <label>商品描述</label>
-        <textarea id="prod-desc" placeholder="商品描述文字"></textarea>
+        <label>鍟嗗搧鎻忚堪</label>
+        <textarea id="prod-desc" placeholder="鍟嗗搧鎻忚堪鏂囧瓧"></textarea>
       </div>
+
+      <!-- 鍥剧墖涓婁紶 -->
       <div class="row">
-        <label>图片文件名（放 images/ 文件夹）</label>
-        <input type="text" id="prod-image" placeholder="plushie-red.png">
+        <label>鍟嗗搧鍥剧墖</label>
+        <div class="upload-area" id="upload-area" onclick="document.getElementById('image-input').click()">
+          <div id="upload-preview">
+            <p>鐐瑰嚮閫夋嫨鍥剧墖</p>
+            <p class="hint">鏀寔 JPG銆丳NG銆乄ebP</p>
+          </div>
+        </div>
+        <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp">
+        <div id="upload-status" class="upload-status"></div>
+        <input type="hidden" id="prod-image" value="">
       </div>
-      <button class="btn" onclick="saveProduct()">保存商品</button>
-      <button class="btn btn-secondary" onclick="cancelEdit()" style="display:none;" id="cancel-btn">取消</button>
+
+      <button class="btn" onclick="saveProduct()">淇濆瓨鍟嗗搧</button>
+      <button class="btn btn-secondary" onclick="cancelEdit()" style="display:none;" id="cancel-btn">鍙栨秷</button>
     </div>
 
-    <!-- 发布到 GitHub -->
-    <button class="btn" onclick="publishToGitHub()" id="publish-btn">发布到网站</button>
+    <!-- 鍙戝竷鎸夐挳 -->
+    <button class="btn" onclick="publishToGitHub()" id="publish-btn">鍙戝竷鍒扮綉绔?/button>
 
-    <!-- 当前商品列表 -->
-    <h2>当前商品</h2>
+    <!-- 褰撳墠鍟嗗搧鍒楄〃 -->
+    <h2>褰撳墠鍟嗗搧</h2>
     <div class="product-list" id="product-list">
-      <p style="color:#888;">点击"从 GitHub 加载"获取当前商品</p>
+      <p style="color:#888;">鐐?鍔犺浇"鑾峰彇褰撳墠鍟嗗搧鏁版嵁</p>
     </div>
-    <button class="btn btn-secondary" onclick="loadFromGitHub()" style="margin-top:8px;">从 GitHub 加载</button>
+    <button class="btn btn-secondary" onclick="loadFromGitHub()" style="margin-top:8px;">浠?GitHub 鍔犺浇</button>
   </div>
 
   <script src="js/products.js"></script>
   <script>
-    // ===== 本地编辑 =====
+    // ===== 鏈湴鍟嗗搧绠＄悊 =====
     let localProducts = [];
+
+    // 鎭㈠ Token 鍜屽晢鍝?    window.onload = function() {
+      const saved = localStorage.getItem('gh_token');
+      if (saved) document.getElementById('github-token').value = saved;
+      const savedProducts = localStorage.getItem('local_products');
+      if (savedProducts) {
+        try { localProducts = JSON.parse(savedProducts); renderLocalList(); } catch(e) {}
+      }
+    }
+
+    // 鍥剧墖閫夋嫨 & 棰勮
+    document.getElementById('image-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const area = document.getElementById('upload-area');
+        area.classList.add('has-image');
+        document.getElementById('upload-preview').innerHTML =
+          '<img src="' + ev.target.result + '"><p class="hint">' + file.name + '</p>';
+        document.getElementById('prod-image').value = file.name;
+        document.getElementById('upload-status').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
 
     function renderLocalList() {
       const el = document.getElementById('product-list');
       if (localProducts.length === 0) {
-        el.innerHTML = '<p style="color:#888;">暂无商品</p>';
+        el.innerHTML = '<p style="color:#888;">鏆傛棤鍟嗗搧</p>';
         return;
       }
       el.innerHTML = localProducts.map((p, i) => `
         <div class="item">
           <div class="info">
             <div class="name">${p.name}</div>
-            <div class="meta">¥${p.price}${p.originalPrice ? ` 原价¥${p.originalPrice}` : ''} | ${p.badge ? p.badge : '无角标'} | 图片: ${p.images[0] || '无'}</div>
+            <div class="meta">楼${p.price}${p.originalPrice ? ' 鍘熶环楼' + p.originalPrice : ''} | ${p.badge || '鏃犺鏍?}</div>
           </div>
           <div class="actions">
-            <button class="btn btn-secondary" onclick="editProduct(${i})">编辑</button>
-            <button class="btn btn-danger" onclick="deleteProduct(${i})">删除</button>
+            <button class="btn btn-secondary" onclick="editProduct(${i})">缂栬緫</button>
+            <button class="btn btn-danger" onclick="deleteProduct(${i})">鍒犻櫎</button>
           </div>
         </div>
       `).join('');
@@ -153,29 +201,28 @@
       const desc = document.getElementById('prod-desc').value.trim();
       const image = document.getElementById('prod-image').value.trim();
 
-      if (!name || !price) { setStatus('请至少填写商品名称和售价', 'error'); return; }
+      if (!name || !price) { setStatus('璇疯嚦灏戝～鍐欏晢鍝佸悕绉板拰鍞环', 'error'); return; }
 
       const product = {
         id: id || ('product-' + Date.now()),
         name: name,
         price: price,
-        description: desc || '商品描述',
+        description: desc || '鍟嗗搧鎻忚堪',
         images: [image || 'placeholder.svg']
       };
       if (original) product.originalPrice = parseFloat(original);
       if (badge) product.badge = badge;
 
       if (id && localProducts.find(p => p.id === id)) {
-        // 编辑
         const idx = localProducts.findIndex(p => p.id === id);
         localProducts[idx] = product;
-        setStatus('商品已更新', 'success');
+        setStatus('鍟嗗搧宸叉洿鏂?, 'success');
       } else {
-        // 新增
         localProducts.push(product);
-        setStatus('商品已添加', 'success');
+        setStatus('鍟嗗搧宸叉坊鍔?, 'success');
       }
 
+      localStorage.setItem('local_products', JSON.stringify(localProducts));
       clearForm();
       renderLocalList();
     }
@@ -189,21 +236,24 @@
       document.getElementById('prod-badge').value = p.badge || '';
       document.getElementById('prod-desc').value = p.description || '';
       document.getElementById('prod-image').value = (p.images && p.images[0] !== 'placeholder.svg') ? p.images[0] : '';
-      document.getElementById('form-title').textContent = '编辑商品';
+      document.getElementById('form-title').textContent = '缂栬緫鍟嗗搧';
       document.getElementById('cancel-btn').style.display = 'inline-block';
+      // 閲嶇疆鍥剧墖棰勮
+      const area = document.getElementById('upload-area');
+      area.classList.remove('has-image');
+      document.getElementById('upload-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鏂板浘鐗?/p><p class="hint">涓嶉€夊垯淇濈暀鍘熷浘</p>';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function deleteProduct(idx) {
-      if (!confirm('确定删除这个商品？')) return;
+      if (!confirm('纭畾鍒犻櫎杩欎釜鍟嗗搧锛?)) return;
       localProducts.splice(idx, 1);
+      localStorage.setItem('local_products', JSON.stringify(localProducts));
       renderLocalList();
-      setStatus('商品已删除', 'success');
+      setStatus('鍟嗗搧宸插垹闄?, 'success');
     }
 
-    function cancelEdit() {
-      clearForm();
-    }
+    function cancelEdit() { clearForm(); }
 
     function clearForm() {
       document.getElementById('edit-id').value = '';
@@ -213,14 +263,19 @@
       document.getElementById('prod-badge').value = '';
       document.getElementById('prod-desc').value = '';
       document.getElementById('prod-image').value = '';
-      document.getElementById('form-title').textContent = '添加商品';
+      document.getElementById('form-title').textContent = '娣诲姞鍟嗗搧';
       document.getElementById('cancel-btn').style.display = 'none';
+      const area = document.getElementById('upload-area');
+      area.classList.remove('has-image');
+      document.getElementById('upload-preview').innerHTML = '<p>鐐瑰嚮閫夋嫨鍥剧墖</p><p class="hint">鏀寔 JPG銆丳NG銆乄ebP</p>';
+      document.getElementById('upload-status').style.display = 'none';
     }
 
-    // ===== GitHub 发布 =====
+    // ===== 淇濆瓨 Token =====
     function getToken() {
       const token = document.getElementById('github-token').value.trim();
-      if (!token) { setStatus('请先输入 GitHub Token', 'error'); return null; }
+      if (!token) { setStatus('璇峰厛杈撳叆 GitHub Token', 'error'); return null; }
+      localStorage.setItem('gh_token', token);
       return token;
     }
 
@@ -230,53 +285,120 @@
       el.className = 'status-msg ' + type;
     }
 
+    // ===== 涓婁紶鍥剧墖鍒?GitHub =====
+    async function uploadImage(file, token) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = async function(ev) {
+          try {
+            const base64 = ev.target.result.split(',')[1];
+            const fileName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+
+            // 妫€鏌ユ枃浠舵槸鍚﹀瓨鍦?            const checkResp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + fileName, {
+              headers: { 'Authorization': 'token ' + token }
+            });
+            const checkData = await checkResp.json();
+            const sha = checkData.sha || null;
+
+            // 涓婁紶/瑕嗙洊
+            const putBody = {
+              message: '涓婁紶鍥剧墖 ' + fileName,
+              content: base64
+            };
+            if (sha) putBody.sha = sha;
+
+            const putResp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/images/' + fileName, {
+              method: 'PUT',
+              headers: {
+                'Authorization': 'token ' + token,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(putBody)
+            });
+
+            if (putResp.ok) {
+              resolve(fileName);
+            } else {
+              const err = await putResp.json();
+              reject(err.message);
+            }
+          } catch(e) {
+            reject(e.message);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ===== 鍙戝竷鍒?GitHub =====
     async function publishToGitHub() {
       const token = getToken();
       if (!token) return;
+      if (localProducts.length === 0) { setStatus('娌℃湁鍟嗗搧鍙彂甯?, 'error'); return; }
 
-      if (localProducts.length === 0) { setStatus('没有商品可发布', 'error'); return; }
-
-      setStatus('正在发布...', 'loading');
+      setStatus('姝ｅ湪鍙戝竷...', 'loading');
       document.getElementById('publish-btn').disabled = true;
 
       try {
-        // 1. 获取当前 products.js 的 SHA
+        // 鑾峰彇褰撳墠 products.js 鐨?SHA
         const repoUrl = 'https://api.github.com/repos/kkkill-pp/store-site';
-        const filePath = 'js/products.js';
-
-        const getResp = await fetch(`${repoUrl}/contents/${filePath}`, {
-          headers: { 'Authorization': `token ${token}` }
+        const getResp = await fetch(repoUrl + '/contents/js/products.js', {
+          headers: { 'Authorization': 'token ' + token }
         });
         const getData = await getResp.json();
+        if (getData.message) { setStatus('鍔犺浇澶辫触锛? + getData.message, 'error'); document.getElementById('publish-btn').disabled = false; return; }
+
         const sha = getData.sha;
 
-        // 2. 生成新的 products.js 内容
+        // 鐢熸垚鏂?products.js
         const jsContent = generateProductsJS(localProducts);
 
-        // 3. 提交更新
-        const putResp = await fetch(`${repoUrl}/contents/${filePath}`, {
+        // 鎻愪氦鏇存柊
+        const putResp = await fetch(repoUrl + '/contents/js/products.js', {
           method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            message: '更新商品',
+            message: '鏇存柊鍟嗗搧鏁版嵁',
             content: btoa(unescape(encodeURIComponent(jsContent))),
             sha: sha
           })
         });
 
         if (putResp.ok) {
-          setStatus('发布成功！网站 1-2 分钟后自动更新', 'success');
+          setStatus('鍙戝竷鎴愬姛锛佺綉绔?1-2 鍒嗛挓鍚庤嚜鍔ㄦ洿鏂?, 'success');
         } else {
           const err = await putResp.json();
-          setStatus('发布失败：' + (err.message || '未知错误'), 'error');
+          setStatus('鍙戝竷澶辫触锛? + (err.message || '鏈煡閿欒'), 'error');
         }
       } catch(e) {
-        setStatus('网络错误：' + e.message, 'error');
+        setStatus('缃戠粶閿欒锛? + e.message, 'error');
       } finally {
         document.getElementById('publish-btn').disabled = false;
+      }
+    }
+
+    // 甯﹀浘鐗囦笂浼犵殑鍙戝竷
+    async function saveAndPublishWithImage() {
+      const fileInput = document.getElementById('image-input');
+      const file = fileInput.files[0];
+      const token = getToken();
+      if (!token) return;
+
+      if (!file) {
+        // 娌￠€夋柊鍥剧墖锛岀洿鎺ヤ繚瀛樺晢鍝佹暟鎹?        saveProduct();
+        return;
+      }
+
+      setStatus('姝ｅ湪涓婁紶鍥剧墖...', 'loading');
+
+      try {
+        const fileName = await uploadImage(file, token);
+        document.getElementById('prod-image').value = fileName;
+        document.getElementById('upload-status').textContent = '鉁?鍥剧墖宸蹭笂浼?;
+        document.getElementById('upload-status').style.display = 'block';
+        saveProduct();
+      } catch(e) {
+        setStatus('鍥剧墖涓婁紶澶辫触锛? + e, 'error');
       }
     }
 
@@ -284,47 +406,74 @@
       const token = getToken();
       if (!token) return;
 
-      setStatus('正在加载...', 'loading');
+      setStatus('姝ｅ湪鍔犺浇...', 'loading');
 
       try {
         const resp = await fetch('https://api.github.com/repos/kkkill-pp/store-site/contents/js/products.js', {
-          headers: { 'Authorization': `token ${token}` }
+          headers: { 'Authorization': 'token ' + token }
         });
         const data = await resp.json();
-        if (data.message) { setStatus('加载失败：' + data.message, 'error'); return; }
+        if (data.message) { setStatus('鍔犺浇澶辫触锛? + data.message, 'error'); return; }
 
-        // 解码
         const content = decodeURIComponent(escape(atob(data.content)));
-        // 提取 products 数组 - 从 const products = [ 到 ];
         const match = content.match(/const products\s*=\s*(\[[\s\S]*?\]);/);
         if (match) {
           localProducts = eval(match[1]);
+          localStorage.setItem('local_products', JSON.stringify(localProducts));
           renderLocalList();
-          setStatus('已加载 ' + localProducts.length + ' 个商品', 'success');
+          setStatus('宸插姞杞?' + localProducts.length + ' 涓晢鍝?, 'success');
         } else {
-          setStatus('解析失败：找不到商品数据', 'error');
+          setStatus('瑙ｆ瀽澶辫触锛氭壘涓嶅埌鍟嗗搧鏁版嵁', 'error');
         }
       } catch(e) {
-        setStatus('加载失败：' + e.message, 'error');
+        setStatus('鍔犺浇澶辫触锛? + e.message, 'error');
       }
     }
 
     function generateProductsJS(products) {
       const items = products.map(p => {
-        const lines = [`    {`];
-        lines.push(`      id: '${p.id}',`);
-        lines.push(`      name: '${p.name.replace(/'/g, "\\'")}',`);
-        lines.push(`      price: ${p.price},`);
-        if (p.originalPrice) lines.push(`      originalPrice: ${p.originalPrice},`);
-        if (p.badge) lines.push(`      badge: '${p.badge.replace(/'/g, "\\'")}',`);
-        lines.push(`      description: '${(p.description || '').replace(/'/g, "\\'")}',`);
+        const lines = ['    {'];
+        lines.push("      id: '" + p.id + "',");
+        lines.push("      name: '" + (p.name || '').replace(/'/g, "\\'") + "',");
+        lines.push('      price: ' + p.price + ',');
+        if (p.originalPrice) lines.push('      originalPrice: ' + p.originalPrice + ',');
+        if (p.badge) lines.push("      badge: '" + (p.badge || '').replace(/'/g, "\\'") + "',");
+        lines.push("      description: '" + (p.description || '').replace(/'/g, "\\'") + "',");
         const img = (p.images && p.images[0]) ? p.images[0] : 'placeholder.svg';
-        lines.push(`      images: ['${img}']`);
-        lines.push(`    }`);
+        lines.push("      images: ['" + img + "']");
+        lines.push('    }');
         return lines.join('\n');
       });
 
-      return `// ===== 产品数据 =====\n// 在 https://kkkill-pp.github.io/store-site/admin.html 上管理\n\nconst products = [\n${items.join(',\n')}\n];\n\n// 渲染函数\nfunction renderProductCard(product) {\n  const imgFile = product.images && product.images[0] ? product.images[0] : 'placeholder.svg';\n  return \`\n    <a href="product.html?id=\${product.id}" class="product-card">\n      <img src="images/\${imgFile}" alt="\${product.name}">\n      <div class="info">\n        \${product.badge ? \`<span class="badge">\${product.badge}</span>\` : ''}\n        <h3>\${product.name}</h3>\n        <span class="price">¥\${product.price}</span>\n        \${product.originalPrice ? \`<span class="original-price">¥\${product.originalPrice}</span>\` : ''}\n      </div>\n    </a>\n  \`;\n}\n\nfunction renderProducts(productList, elementId) {\n  const container = document.getElementById(elementId);\n  if (!container) return;\n  container.innerHTML = productList.map(p => renderProductCard(p)).join('');\n}\n`;
+      return (
+`// ===== 浜у搧鏁版嵁 =====
+// 鍦?https://kkkill-pp.github.io/store-site/admin.html 涓婄鐞?
+const products = [
+${items.join(',\n')}
+];
+
+// 娓叉煋鍑芥暟
+function renderProductCard(product) {
+  const imgFile = product.images && product.images[0] ? product.images[0] : 'placeholder.svg';
+  return \`
+    <a href="product.html?id=\${product.id}" class="product-card">
+      <img src="images/\${imgFile}" alt="\${product.name}">
+      <div class="info">
+        \${product.badge ? \`<span class="badge">\${product.badge}</span>\` : ''}
+        <h3>\${product.name}</h3>
+        <span class="price">楼\${product.price}</span>
+        \${product.originalPrice ? \`<span class="original-price">楼\${product.originalPrice}</span>\` : ''}
+      </div>
+    </a>
+  \`;
+}
+
+function renderProducts(productList, elementId) {
+  const container = document.getElementById(elementId);
+  if (!container) return;
+  container.innerHTML = productList.map(p => renderProductCard(p)).join('');
+}
+`);
     }
   </script>
 </body>
